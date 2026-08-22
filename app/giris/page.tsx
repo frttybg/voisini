@@ -31,7 +31,10 @@ export default function GirisPage() {
 
           <button
             type="button"
-            onClick={() => alert('Giriş yapıldı! (MVP simülasyonu)')}
+            onClick={() => {
+              alert('Giriş yapıldı!');
+              window.location.href = '/profil';
+            }}
             className="w-full bg-emerald-600 text-white font-semibold py-3.5 rounded-2xl shadow-lg shadow-emerald-600/20 hover:bg-emerald-700 transition text-sm"
           >
             Giriş Yap

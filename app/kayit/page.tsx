@@ -40,7 +40,10 @@ export default function KayitPage() {
 
           <button
             type="button"
-            onClick={() => alert('Kayıt oluşturuldu! (MVP simülasyonu)')}
+            onClick={() => {
+              alert('Kayıt oluşturuldu! Giriş sayfasına yönlendiriliyorsunuz.');
+              window.location.href = '/giris';
+            }}
             className="w-full bg-emerald-600 text-white font-semibold py-3.5 rounded-2xl shadow-lg shadow-emerald-600/20 hover:bg-emerald-700 transition text-sm"
           >
             Kayıt Ol
