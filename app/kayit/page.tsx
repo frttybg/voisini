@@ -1,31 +1,39 @@
 'use client';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function KayitPage() {
-  const [formData, setFormData] = useState({ name: '', email: '', password: '', location: '' });
+  const router = useRouter();
+  const [form, setForm] = useState({ name: '', email: '', password: '', location: 'Valentigney, Fransa' });
 
-  const handleRegister = async () => {
-    // MVP: Şifre hashleme simülasyonu (Production'da bcrypt.js veya benzeri kullanılır)
-    const mockHash = btoa(formData.password); 
-    const userData = { ...formData, password: mockHash, id: Date.now() };
+  const handleRegister = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!form.email || !form.password || !form.name) return alert('Lütfen tüm alanları doldurun.');
     
-    localStorage.setItem('voisini_user', JSON.stringify(userData));
-    localStorage.setItem('voisini_session', 'true'); // Oturum açıldı
-    
-    alert('Kayıt başarılı! Aramıza hoş geldin.');
-    window.location.href = '/profil';
+    // Kullanıcıyı kaydet ve oturum aç
+    localStorage.setItem('voisini_user', JSON.stringify(form));
+    alert('Kayıt başarılı!');
+    router.push('/profil');
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-      <div className="bg-white p-8 rounded-3xl shadow-sm border w-full max-w-md">
-        <h2 className="text-2xl font-black mb-6">Aramıza Katılın</h2>
-        <input className="w-full mb-4 p-3 border rounded-xl" placeholder="Ad Soyad" onChange={e => setFormData({...formData, name: e.target.value})} />
-        <input className="w-full mb-4 p-3 border rounded-xl" type="email" placeholder="E-posta" onChange={e => setFormData({...formData, email: e.target.value})} />
-        <input className="w-full mb-4 p-3 border rounded-xl" type="password" placeholder="Şifre" onChange={e => setFormData({...formData, password: e.target.value})} />
-        <input className="w-full mb-6 p-3 border rounded-xl" placeholder="Konum (Şehir/İlçe)" onChange={e => setFormData({...formData, location: e.target.value})} />
-        <button onClick={handleRegister} className="w-full bg-emerald-600 text-white p-3 rounded-xl font-bold">Kayıt Ol</button>
-      </div>
+    <div className="max-w-md mx-auto px-4 py-16">
+      <h1 className="text-3xl font-black mb-6 text-emerald-600">Voisiniye Katıl</h1>
+      <form onSubmit={handleRegister} className="space-y-4">
+        <div>
+          <label className="block text-xs font-bold mb-1 text-gray-600">Ad Soyad</label>
+          <input type="text" value={form.name} onChange={e => setForm({...form, name: e.target.value})} className="w-full p-3 border rounded-xl text-sm" placeholder="Ahmet Yılmaz" required />
+        </div>
+        <div>
+          <label className="block text-xs font-bold mb-1 text-gray-600">E-posta</label>
+          <input type="email" value={form.email} onChange={e => setForm({...form, email: e.target.value})} className="w-full p-3 border rounded-xl text-sm" placeholder="komsu@voisini.com" required />
+        </div>
+        <div>
+          <label className="block text-xs font-bold mb-1 text-gray-600">Şifre</label>
+          <input type="password" value={form.password} onChange={e => setForm({...form, password: e.target.value})} className="w-full p-3 border rounded-xl text-sm" placeholder="••••••••" required />
+        </div>
+        <button type="submit" className="w-full bg-emerald-600 text-white font-bold py-3 rounded-xl hover:bg-emerald-700 transition">Kayıt Ol</button>
+      </form>
     </div>
   );
 }
