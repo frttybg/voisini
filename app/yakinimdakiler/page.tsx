@@ -1,116 +1,27 @@
 'use client';
+import { useState } from 'react';
+import ListingCard from '../components/ListingCard';
 
-import { useState, useEffect } from 'react';
-import { LISTING_TYPES } from '../lib/constants';
-
-export default function YakinimdakilerPage() {
-  const [selectedType, setSelectedType] = useState('tumu');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [listings, setListings] = useState([
-    { id: 1, title: 'Temel Trekking Bisikleti', type: 'vendre', typeLabel: 'Satılık', price: '3.500 TL', distance: 'Sana 2.3 km uzaklıkta', category: 'Spor', user: 'Ahmet Y.', rating: '4.8' },
-    { id: 2, title: 'Nespresso Kahve Makinesi', type: 'louer', typeLabel: 'Kiralık', price: '150 TL / gün', distance: 'Sana 1.1 km uzaklıkta', category: 'Ev ve yaşam', user: 'Zeynep K.', rating: '4.9' },
-    { id: 3, title: 'Çocuk Oyun Parkı / Yürüteç', type: 'donner', typeLabel: 'Ücretsiz', price: 'Ücretsiz', distance: 'Sana 800 m uzaklıkta', category: 'Çocuk', user: 'Mehmet A.', rating: '5.0' },
-  ]);
-
-  useEffect(() => {
-    const saved = JSON.parse(localStorage.getItem('voisini_listings') || '[]');
-    if (saved.length > 0) {
-      setListings((prev) => [...saved, ...prev]);
-    }
-  }, []);
-
-  const filtered = listings.filter(item => {
-    const matchesType = selectedType === 'tumu' || item.type === selectedType;
-    const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase()) || item.category.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesType && matchesSearch;
-  });
+export default function ListelemePage() {
+  const [sortBy, setSortBy] = useState('yeni'); // Sıralama: yakın, yeni, fiyat_dusuk, fiyat_yuksek
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col pb-20">
-      <header className="bg-white border-b border-gray-100 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <a href="/" className="text-2xl font-black text-emerald-600 tracking-tight">voisini<span className="text-gray-900">.com</span></a>
-          <a href="/" className="text-sm font-medium text-emerald-600 hover:underline">&larr; Ana Sayfa</a>
-        </div>
-      </header>
+    <div className="max-w-7xl mx-auto px-4 py-8">
+      {/* Filtre ve Sıralama Çubuğu */}
+      <div className="flex flex-col md:flex-row gap-4 mb-8">
+        <select className="p-3 border rounded-xl text-sm" onChange={(e) => setSortBy(e.target.value)}>
+          <option value="yeni">En Yeni</option>
+          <option value="yakin">En Yakın</option>
+          <option value="fiyat_dusuk">Fiyat: Düşükten Yükseğe</option>
+          <option value="fiyat_yuksek">Fiyat: Yüksekten Düşüğe</option>
+        </select>
+        {/* Kategori, Fiyat, Mesafe filtreleri buraya eklenecek */}
+      </div>
 
-      <main className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 flex-grow">
-        <div className="mb-8">
-          <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">Yakınındaki İlanlar</h1>
-          <p className="text-sm text-gray-600 mt-1">Konumuna en yakın komşularının paylaştığı eşyaları keşfet.</p>
-
-          {/* Arama Çubuğu */}
-          <div className="mt-4">
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="İlan adı veya kategori ara (örn: Bisiklet, Spor)..."
-              className="w-full sm:max-w-md px-4 py-3 rounded-xl border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-emerald-600 text-sm shadow-sm"
-            />
-          </div>
-
-          {/* Filtreler */}
-          <div className="flex flex-wrap gap-2 mt-4">
-            <button
-              onClick={() => setSelectedType('tumu')}
-              className={`px-4 py-2 rounded-xl text-xs font-semibold transition ${selectedType === 'tumu' ? 'bg-emerald-600 text-white shadow-sm' : 'bg-white text-gray-700 border border-gray-200 hover:bg-gray-50'}`}
-            >
-              Tümü
-            </button>
-            {LISTING_TYPES.map((filter) => (
-              <button
-                key={filter.id}
-                onClick={() => setSelectedType(filter.id)}
-                className={`px-4 py-2 rounded-xl text-xs font-semibold transition ${selectedType === filter.id ? 'bg-emerald-600 text-white shadow-sm' : 'bg-white text-gray-700 border border-gray-200 hover:bg-gray-50'}`}
-              >
-                {filter.badge}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {filtered.length === 0 ? (
-          <div className="bg-white border border-gray-100 rounded-3xl p-12 text-center text-gray-500 text-sm">
-            Aradığınız kriterlere uygun ilan bulunamadı.
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {filtered.map((item) => (
-              <div key={item.id} className="bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition flex flex-col justify-between">
-                <div>
-                  <div className="h-48 bg-emerald-50 flex items-center justify-center text-emerald-600 font-semibold text-sm relative">
-                    <span>Ürün Görseli</span>
-                    <span className="absolute top-3 left-3 bg-white/90 backdrop-blur text-gray-900 text-[10px] font-bold px-2.5 py-1 rounded-lg shadow-sm">
-                      {item.typeLabel}
-                    </span>
-                  </div>
-                  <div className="p-5">
-                    <div className="flex justify-between items-start mb-2">
-                      <span className="text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md">{item.category}</span>
-                      <span className="text-xs text-gray-400 font-medium">{item.distance}</span>
-                    </div>
-                    <h3 className="font-bold text-gray-900 text-base mb-1">{item.title}</h3>
-                    <p className="font-extrabold text-emerald-600 text-lg mb-3">{item.price}</p>
-                  </div>
-                </div>
-
-                <div className="p-5 pt-0 border-t border-gray-50 flex items-center justify-between mt-auto">
-                  <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-full bg-gray-100 text-gray-700 text-xs font-bold flex items-center justify-center">
-                      {item.user.charAt(0)}
-                    </div>
-                    <span className="text-xs font-semibold text-gray-700">{item.user} <span className="text-amber-500 font-normal">★ {item.rating}</span></span>
-                  </div>
-                  <a href="/ilan/detay" className="bg-gray-900 text-white text-xs font-semibold px-3.5 py-2 rounded-xl hover:bg-emerald-600 transition">
-                    İncele
-                  </a>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </main>
+      {/* Grid */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {/* İlanlar buraya mapping ile gelecek */}
+      </div>
     </div>
   );
 }

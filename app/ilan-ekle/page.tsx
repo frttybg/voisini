@@ -1,193 +1,74 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { CATEGORIES, LISTING_TYPES } from '../lib/constants';
 
 export default function IlanEklePage() {
   const router = useRouter();
-  const [title, setTitle] = useState('');
-  const [category, setCategory] = useState(CATEGORIES[0]);
-  const [type, setType] = useState('vendre');
-  const [price, setPrice] = useState('');
-  const [deposit, setDeposit] = useState('');
-  const [duration, setDuration] = useState('');
-  const [exchangeWith, setExchangeWith] = useState('');
-  const [description, setDescription] = useState('');
-  const [distance, setDistance] = useState('Sana 1.2 km uzaklıkta');
+  const [photos, setPhotos] = useState<string[]>([]);
+  const [formData, setFormData] = useState({
+    title: '', description: '', category: CATEGORIES[0], type: 'vendre',
+    price: '', deposit: '', duration: '', exchangeWith: ''
+  });
+
+  // Fotoğraf Yükleme Mantığı
+  const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const newPhotos = Array.from(e.target.files).map(file => URL.createObjectURL(file));
+      setPhotos([...photos, ...newPhotos]);
+    }
+  };
+
+  const removePhoto = (index: number) => setPhotos(photos.filter((_, i) => i !== index));
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!title) {
-      alert('Lütfen bir ilan başlığı girin.');
-      return;
-    }
-
-    const typeObj = LISTING_TYPES.find(t => t.id === type);
-
-    const newListing = {
-      id: Date.now(),
-      title,
-      category,
-      type,
-      typeLabel: typeObj ? typeObj.badge : 'Satılık',
-      price: type === 'donner' ? 'Ücretsiz' : price ? `${price} TL` : 'Belirtilmedi',
-      deposit,
-      duration,
-      exchangeWith,
-      distance,
-      user: 'Sen (Aktif Kullanıcı)',
-      rating: '5.0',
-      description,
-      date: 'Yeni eklendi'
-    };
-
+    const newListing = { ...formData, id: Date.now(), photos, date: new Date().toISOString() };
     const existing = JSON.parse(localStorage.getItem('voisini_listings') || '[]');
     localStorage.setItem('voisini_listings', JSON.stringify([newListing, ...existing]));
-
     alert('İlanınız başarıyla yayınlandı!');
     router.push('/yakinimdakiler');
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col pb-20">
-      <header className="bg-white border-b border-gray-100 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <a href="/" className="text-2xl font-black text-emerald-600 tracking-tight">voisini<span className="text-gray-900">.com</span></a>
-          <a href="/" className="text-sm font-medium text-emerald-600 hover:underline">&larr; Ana Sayfa</a>
+    <div className="min-h-screen bg-gray-50 py-10 px-4">
+      <form onSubmit={handleSubmit} className="max-w-2xl mx-auto bg-white p-8 rounded-3xl border shadow-sm space-y-6">
+        <h1 className="text-2xl font-black">İlan Oluştur</h1>
+
+        {/* Fotoğraf Alanı */}
+        <div>
+          <label className="block text-sm font-bold mb-2">Fotoğraflar (Mobil Kameradan Yüklenebilir)</label>
+          <input type="file" multiple accept="image/*" capture="environment" onChange={handlePhotoUpload} className="w-full mb-2 p-2 border rounded-xl" />
+          <div className="flex gap-2 overflow-x-auto">
+            {photos.map((p, i) => (
+              <div key={i} className="relative w-20 h-20 flex-shrink-0">
+                <img src={p} className="w-full h-full object-cover rounded-xl" />
+                <button type="button" onClick={() => removePhoto(i)} className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 text-xs">×</button>
+              </div>
+            ))}
+          </div>
         </div>
-      </header>
 
-      <main className="max-w-2xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-10 flex-grow">
-        <div className="bg-white border border-gray-100 rounded-3xl p-6 sm:p-8 shadow-sm">
-          <h1 className="text-2xl font-extrabold text-gray-900 mb-2">Yeni İlan Oluştur</h1>
-          <p className="text-sm text-gray-500 mb-6">Komşularınla paylaşmak istediğin eşyayı detaylarıyla ekle.</p>
+        <input className="w-full p-3 border rounded-xl" placeholder="Başlık (Örn: Bisiklet)" onChange={e => setFormData({...formData, title: e.target.value})} />
+        <textarea className="w-full p-3 border rounded-xl" rows={3} placeholder="Açıklama..." onChange={e => setFormData({...formData, description: e.target.value})} />
+        
+        <select className="w-full p-3 border rounded-xl" onChange={e => setFormData({...formData, category: e.target.value})}>
+          {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
+        </select>
 
-          <form onSubmit={handleSubmit} className="space-y-5">
-            <div>
-              <label className="block text-sm font-semibold text-gray-900 mb-2">İlan Başlığı</label>
-              <input
-                type="text"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                placeholder="Örn: Temiz Bisiklet / Kahve Makinesi"
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-emerald-600 text-sm"
-              />
-            </div>
+        <select className="w-full p-3 border rounded-xl" onChange={e => setFormData({...formData, type: e.target.value})}>
+          {LISTING_TYPES.map(t => <option key={t.id} value={t.id}>{t.label}</option>)}
+        </select>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">Kategori</label>
-                <select
-                  value={category}
-                  onChange={(e) => setCategory(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-emerald-600 text-sm bg-white"
-                >
-                  {CATEGORIES.map(cat => (
-                    <option key={cat} value={cat}>{cat}</option>
-                  ))}
-                </select>
-              </div>
+        {/* Dinamik Alanlar */}
+        {formData.type === 'vendre' && <input className="w-full p-3 border rounded-xl" placeholder="Fiyat (TL)" onChange={e => setFormData({...formData, price: e.target.value})} />}
+        {formData.type === 'louer' && <><input className="w-full p-3 border rounded-xl" placeholder="Kiralama Ücreti" onChange={e => setFormData({...formData, price: e.target.value})} /><input className="w-full p-3 border rounded-xl" placeholder="Depozito" onChange={e => setFormData({...formData, deposit: e.target.value})} /></>}
+        {formData.type === 'preter' && <input className="w-full p-3 border rounded-xl" placeholder="İade Koşulları ve Süre" onChange={e => setFormData({...formData, duration: e.target.value})} />}
+        {formData.type === 'echanger' && <input className="w-full p-3 border rounded-xl" placeholder="Neyle takas edeceksin?" onChange={e => setFormData({...formData, exchangeWith: e.target.value})} />}
 
-              <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">İlan Türü</label>
-                <select
-                  value={type}
-                  onChange={(e) => setType(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-emerald-600 text-sm bg-white"
-                >
-                  {LISTING_TYPES.map(t => (
-                    <option key={t.id} value={t.id}>{t.label}</option>
-                  ))}
-                </select>
-              </div>
-            </div>
-
-            {/* Dinamik Alanlar */}
-            {type === 'vendre' && (
-              <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">Fiyat (TL)</label>
-                <input
-                  type="text"
-                  value={price}
-                  onChange={(e) => setPrice(e.target.value)}
-                  placeholder="Örn: 1500"
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-emerald-600 text-sm"
-                />
-              </div>
-            )}
-
-            {type === 'louer' && (
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-semibold text-gray-900 mb-2">Kiralama Bedeli</label>
-                  <input
-                    type="text"
-                    value={price}
-                    onChange={(e) => setPrice(e.target.value)}
-                    placeholder="Örn: 150 TL / gün"
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-emerald-600 text-sm"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-gray-900 mb-2">Depozito</label>
-                  <input
-                    type="text"
-                    value={deposit}
-                    onChange={(e) => setDeposit(e.target.value)}
-                    placeholder="Örn: 500 TL"
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-emerald-600 text-sm"
-                  />
-                </div>
-              </div>
-            )}
-
-            {type === 'preter' && (
-              <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">Ödünç Verme Koşulları / Süresi</label>
-                <input
-                  type="text"
-                  value={duration}
-                  onChange={(e) => setDuration(e.target.value)}
-                  placeholder="Örn: Maksimum 1 hafta"
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-emerald-600 text-sm"
-                />
-              </div>
-            )}
-
-            {type === 'echanger' && (
-              <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">Neyle Takas Etmek İstersin?</label>
-                <input
-                  type="text"
-                  value={exchangeWith}
-                  onChange={(e) => setExchangeWith(e.target.value)}
-                  placeholder="Örn: Kamp ekipmanları ile takas olur"
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-emerald-600 text-sm"
-                />
-              </div>
-            )}
-
-            <div>
-              <label className="block text-sm font-semibold text-gray-900 mb-2">Açıklama</label>
-              <textarea
-                rows={4}
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                placeholder="Ürünün durumu ve teslimat koşulları hakkında bilgi ver..."
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-emerald-600 text-sm"
-              ></textarea>
-            </div>
-
-            <button
-              type="submit"
-              className="w-full bg-emerald-600 text-white font-semibold py-4 rounded-2xl shadow-lg shadow-emerald-600/20 hover:bg-emerald-700 transition text-sm"
-            >
-              Hemen Yayınla
-            </button>
-          </form>
-        </div>
-      </main>
+        <button type="submit" className="w-full bg-emerald-600 text-white p-4 rounded-xl font-bold">Yayınla</button>
+      </form>
     </div>
   );
 }

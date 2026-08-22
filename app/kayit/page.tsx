@@ -1,59 +1,30 @@
 'use client';
+import { useState } from 'react';
 
 export default function KayitPage() {
+  const [formData, setFormData] = useState({ name: '', email: '', password: '', location: '' });
+
+  const handleRegister = async () => {
+    // MVP: Şifre hashleme simülasyonu (Production'da bcrypt.js veya benzeri kullanılır)
+    const mockHash = btoa(formData.password); 
+    const userData = { ...formData, password: mockHash, id: Date.now() };
+    
+    localStorage.setItem('voisini_user', JSON.stringify(userData));
+    localStorage.setItem('voisini_session', 'true'); // Oturum açıldı
+    
+    alert('Kayıt başarılı! Aramıza hoş geldin.');
+    window.location.href = '/profil';
+  };
+
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
-        <a href="/" className="text-3xl font-black text-emerald-600 tracking-tight">voisini<span className="text-gray-900">.com</span></a>
-        <h2 className="mt-4 text-2xl font-bold tracking-tight text-gray-900">Aramıza Katılın</h2>
-        <p className="text-sm text-gray-600 mt-1">Komşular arası paylaşım ağına hemen dahil olun.</p>
-      </div>
-
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md px-4">
-        <div className="bg-white py-8 px-6 shadow-sm border border-gray-100 rounded-3xl sm:px-10 space-y-5">
-          <div>
-            <label className="block text-sm font-semibold text-gray-900 mb-2">Ad Soyad / Kullanıcı Adı</label>
-            <input
-              type="text"
-              placeholder="Ahmet Yılmaz"
-              className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-emerald-600 text-sm"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-semibold text-gray-900 mb-2">E-posta Adresi</label>
-            <input
-              type="email"
-              placeholder="ornek@mail.com"
-              className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-emerald-600 text-sm"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-semibold text-gray-900 mb-2">Şifre</label>
-            <input
-              type="password"
-              placeholder="••••••••"
-              className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-emerald-600 text-sm"
-            />
-          </div>
-
-          <button
-            type="button"
-            onClick={() => {
-              alert('Kayıt oluşturuldu! Giriş sayfasına yönlendiriliyorsunuz.');
-              window.location.href = '/giris';
-            }}
-            className="w-full bg-emerald-600 text-white font-semibold py-3.5 rounded-2xl shadow-lg shadow-emerald-600/20 hover:bg-emerald-700 transition text-sm"
-          >
-            Kayıt Ol
-          </button>
-
-          <p className="text-center text-sm text-gray-600">
-            Zaten hesabınız var mı?{' '}
-            <a href="/giris" className="font-semibold text-emerald-600 hover:underline">Giriş Yapın</a>
-          </p>
-        </div>
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+      <div className="bg-white p-8 rounded-3xl shadow-sm border w-full max-w-md">
+        <h2 className="text-2xl font-black mb-6">Aramıza Katılın</h2>
+        <input className="w-full mb-4 p-3 border rounded-xl" placeholder="Ad Soyad" onChange={e => setFormData({...formData, name: e.target.value})} />
+        <input className="w-full mb-4 p-3 border rounded-xl" type="email" placeholder="E-posta" onChange={e => setFormData({...formData, email: e.target.value})} />
+        <input className="w-full mb-4 p-3 border rounded-xl" type="password" placeholder="Şifre" onChange={e => setFormData({...formData, password: e.target.value})} />
+        <input className="w-full mb-6 p-3 border rounded-xl" placeholder="Konum (Şehir/İlçe)" onChange={e => setFormData({...formData, location: e.target.value})} />
+        <button onClick={handleRegister} className="w-full bg-emerald-600 text-white p-3 rounded-xl font-bold">Kayıt Ol</button>
       </div>
     </div>
   );
