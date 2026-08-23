@@ -1,0 +1,367 @@
+@import "tailwindcss";
+
+/* =====================================================================
+   VOISINI — TASARIM SİSTEMİ
+   Renk, tipografi, boşluk, gölge ve hareket tokenları tek yerde.
+   Bileşenler daima semantik tokenları kullanır (bg-surface, text-ink…),
+   böylece açık/koyu tema tek noktadan yönetilir.
+   ===================================================================== */
+
+@theme inline {
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-muted: var(--ink-muted);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-surface-sunken: var(--surface-sunken);
+  --color-line: var(--line);
+  --color-line-soft: var(--line-soft);
+
+  --color-brand: var(--brand-500);
+  --color-brand-50: var(--brand-50);
+  --color-brand-100: var(--brand-100);
+  --color-brand-200: var(--brand-200);
+  --color-brand-300: var(--brand-300);
+  --color-brand-400: var(--brand-400);
+  --color-brand-500: var(--brand-500);
+  --color-brand-600: var(--brand-600);
+  --color-brand-700: var(--brand-700);
+  --color-brand-800: var(--brand-800);
+  --color-brand-900: var(--brand-900);
+
+  --color-accent: var(--accent-500);
+  --color-accent-400: var(--accent-400);
+  --color-accent-500: var(--accent-500);
+  --color-accent-600: var(--accent-600);
+
+  --color-sell: var(--type-sell);
+  --color-give: var(--type-give);
+  --color-lend: var(--type-lend);
+  --color-rent: var(--type-rent);
+  --color-swap: var(--type-swap);
+
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+
+  --font-sans: var(--font-stack);
+  --font-display: var(--font-stack-display);
+
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-2xl: 36px;
+
+  --shadow-soft: 0 1px 2px rgb(12 20 18 / 0.04), 0 4px 16px -6px rgb(12 20 18 / 0.08);
+  --shadow-card: 0 2px 4px rgb(12 20 18 / 0.04), 0 12px 32px -12px rgb(12 20 18 / 0.16);
+  --shadow-lift: 0 8px 16px -6px rgb(12 20 18 / 0.10), 0 24px 56px -20px rgb(12 20 18 / 0.28);
+  --shadow-glow: 0 0 0 1px var(--brand-200), 0 12px 40px -12px var(--brand-300);
+
+  --ease-spring: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* --- Açık tema (varsayılan) ----------------------------------------- */
+:root {
+  --font-stack: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", "Noto Sans", "Noto Sans Arabic", Arial, sans-serif;
+  --font-stack-display: var(--font-stack);
+
+  --brand-50: #ecfdf6;
+  --brand-100: #d3f8e8;
+  --brand-200: #a7efd4;
+  --brand-300: #6fe0bb;
+  --brand-400: #34c79e;
+  --brand-500: #12a97f;
+  --brand-600: #0a8767;
+  --brand-700: #0a6b54;
+  --brand-800: #0b5544;
+  --brand-900: #0a4638;
+
+  --accent-400: #ff7a5c;
+  --accent-500: #ff5a36;
+  --accent-600: #e6431f;
+
+  --type-sell: #0a8767;
+  --type-give: #f0a020;
+  --type-lend: #0ea5e9;
+  --type-rent: #7c5cff;
+  --type-swap: #ff5a36;
+
+  --success: #16a34a;
+  --warning: #f0a020;
+  --danger: #dc2626;
+
+  --ink: #0a1310;
+  --ink-soft: #364842;
+  --ink-muted: #6b807a;
+  --surface: #fbfaf7;
+  --surface-raised: #ffffff;
+  --surface-sunken: #f2f1ec;
+  --line: #e2e2da;
+  --line-soft: #ecece5;
+
+  --hero-glow-a: rgb(18 169 127 / 0.18);
+  --hero-glow-b: rgb(255 90 54 / 0.14);
+  --grain-opacity: 0.035;
+
+  color-scheme: light;
+}
+
+/* --- Koyu tema ------------------------------------------------------- */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ink: #f2f6f4;
+    --ink-soft: #b6c4bf;
+    --ink-muted: #7c8f89;
+    --surface: #07100d;
+    --surface-raised: #0e1a16;
+    --surface-sunken: #050b09;
+    --line: #1d2b26;
+    --line-soft: #16221e;
+
+    --brand-50: #062018;
+    --brand-100: #06291f;
+    --brand-200: #0a3d2f;
+    --brand-300: #0e6c53;
+    --brand-400: #17a37c;
+    --brand-500: #2ac295;
+    --brand-600: #4fd7ae;
+    --brand-700: #7fe6c6;
+    --brand-800: #a9f0da;
+    --brand-900: #d6f8ec;
+
+    --type-sell: #2ac295;
+    --hero-glow-a: rgb(42 194 149 / 0.22);
+    --hero-glow-b: rgb(255 90 54 / 0.16);
+    --grain-opacity: 0.05;
+
+    color-scheme: dark;
+  }
+}
+
+[data-theme="dark"] {
+  --ink: #f2f6f4;
+  --ink-soft: #b6c4bf;
+  --ink-muted: #7c8f89;
+  --surface: #07100d;
+  --surface-raised: #0e1a16;
+  --surface-sunken: #050b09;
+  --line: #1d2b26;
+  --line-soft: #16221e;
+
+  --brand-50: #062018;
+  --brand-100: #06291f;
+  --brand-200: #0a3d2f;
+  --brand-300: #0e6c53;
+  --brand-400: #17a37c;
+  --brand-500: #2ac295;
+  --brand-600: #4fd7ae;
+  --brand-700: #7fe6c6;
+  --brand-800: #a9f0da;
+  --brand-900: #d6f8ec;
+
+  --type-sell: #2ac295;
+  --hero-glow-a: rgb(42 194 149 / 0.22);
+  --hero-glow-b: rgb(255 90 54 / 0.16);
+  --grain-opacity: 0.05;
+
+  color-scheme: dark;
+}
+
+/* --- Temel ----------------------------------------------------------- */
+* { border-color: var(--line); }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--surface);
+  color: var(--ink);
+  font-family: var(--font-stack);
+  font-synthesis-weight: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+::selection { background: var(--brand-200); color: var(--brand-900); }
+
+:focus-visible {
+  outline: 2px solid var(--brand-500);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* İnce, sayfayı ısıtan grain dokusu */
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: var(--grain-opacity);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+}
+
+/* --- Tipografi ölçeği ------------------------------------------------ */
+.display-xl {
+  font-size: clamp(2.75rem, 11vw, 9.5rem);
+  line-height: 0.88;
+  letter-spacing: -0.045em;
+  font-weight: 800;
+}
+.display-lg {
+  font-size: clamp(2.25rem, 7vw, 5.5rem);
+  line-height: 0.94;
+  letter-spacing: -0.035em;
+  font-weight: 800;
+}
+.display-md {
+  font-size: clamp(1.75rem, 4.2vw, 3.25rem);
+  line-height: 1.04;
+  letter-spacing: -0.028em;
+  font-weight: 750;
+}
+.display-sm {
+  font-size: clamp(1.35rem, 2.6vw, 2rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+}
+.eyebrow {
+  font-size: 0.75rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 650;
+}
+.lede {
+  font-size: clamp(1.05rem, 1.6vw, 1.35rem);
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+
+/* RTL: Arapça'da harf aralığını sıkıştırma */
+[dir="rtl"] .display-xl,
+[dir="rtl"] .display-lg,
+[dir="rtl"] .display-md,
+[dir="rtl"] .eyebrow {
+  letter-spacing: 0;
+}
+[dir="rtl"] .display-xl { line-height: 1.05; }
+
+/* --- Yardımcı yüzeyler ----------------------------------------------- */
+.glass {
+  background: color-mix(in oklab, var(--surface-raised) 72%, transparent);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+}
+
+.card-hover {
+  transition:
+    transform 0.42s var(--ease-spring),
+    box-shadow 0.42s var(--ease-spring),
+    border-color 0.3s ease;
+}
+.card-hover:hover { transform: translateY(-6px); box-shadow: var(--shadow-lift); }
+
+.media-zoom img,
+.media-zoom > div > img { transition: transform 0.7s var(--ease-out-soft); }
+.media-zoom:hover img { transform: scale(1.06); }
+
+/* --- Reveal (IntersectionObserver ile) ------------------------------- */
+[data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 26px, 0);
+  transition:
+    opacity 0.75s var(--ease-out-soft),
+    transform 0.75s var(--ease-out-soft);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+[data-reveal="scale"] { transform: translate3d(0, 20px, 0) scale(0.965); }
+[data-reveal="left"] { transform: translate3d(-28px, 0, 0); }
+[data-reveal="right"] { transform: translate3d(28px, 0, 0); }
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+/* --- Hareketler ------------------------------------------------------ */
+@keyframes float-y {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(0, -14px, 0); }
+}
+@keyframes drift {
+  0% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  50% { transform: translate3d(10px, -12px, 0) rotate(1.2deg); }
+  100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+}
+@keyframes pulse-ring {
+  0% { transform: scale(0.6); opacity: 0.55; }
+  80%, 100% { transform: scale(2.4); opacity: 0; }
+}
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@keyframes shimmer {
+  from { background-position: -180% 0; }
+  to { background-position: 180% 0; }
+}
+@keyframes fade-up {
+  from { opacity: 0; transform: translate3d(0, 14px, 0); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes pop-in {
+  0% { opacity: 0; transform: scale(0.92); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.animate-float { animation: float-y 7s ease-in-out infinite; }
+.animate-drift { animation: drift 14s ease-in-out infinite; }
+.animate-marquee { animation: marquee 42s linear infinite; }
+.animate-fade-up { animation: fade-up 0.5s var(--ease-out-soft) both; }
+.animate-pop { animation: pop-in 0.35s var(--ease-spring) both; }
+
+.skeleton {
+  background: linear-gradient(
+    100deg,
+    var(--surface-sunken) 30%,
+    color-mix(in oklab, var(--surface-sunken) 60%, var(--surface-raised)) 50%,
+    var(--surface-sunken) 70%
+  );
+  background-size: 300% 100%;
+  animation: shimmer 1.6s linear infinite;
+}
+
+.pulse-dot::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background: currentColor;
+  animation: pulse-ring 2.6s ease-out infinite;
+}
+
+/* Kaydırma çubuğunu gizle (yatay kart şeritleri) */
+.no-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
+/* --- Erişilebilirlik: hareket azaltma -------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  [data-reveal] { opacity: 1 !important; transform: none !important; }
+}
