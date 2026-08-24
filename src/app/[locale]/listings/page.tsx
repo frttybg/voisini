@@ -6,6 +6,7 @@ import {
   DEFAULT_LOCATION,
   getCategories,
   getFavoriteIds,
+  getListingPoints,
   getViewerLocation,
   imageUrl,
   searchListingsExpanding,
@@ -13,7 +14,7 @@ import {
 import { formatDistance } from "@/lib/utils";
 import { Icon } from "@/components/ui/Icon";
 import { Filters } from "@/components/listings/Filters";
-import { ResultsGrid } from "@/components/listings/ResultsGrid";
+import { ResultsView } from "@/components/listings/ResultsView";
 import { SearchBar } from "@/components/home/SearchBar";
 import type { ListingType } from "@/lib/supabase/types";
 
@@ -83,6 +84,7 @@ export default async function ListingsPage({
   ]);
 
   const images = Object.fromEntries(items.map((l) => [l.id, imageUrl(l.image_path)]));
+  const points = await getListingPoints(items.map((l) => l.id));
 
   return (
     <div className="mx-auto w-full max-w-[1240px] px-5 pb-24 pt-8 sm:px-8">
@@ -125,14 +127,17 @@ export default async function ListingsPage({
         </div>
       ) : null}
 
-      <ResultsGrid
-        listings={items}
-        images={images}
-        favorites={[...favorites]}
-        authenticated={Boolean(profile)}
-        total={total}
-        offset={Number.isFinite(offset) ? offset : 0}
-      />
+      <Suspense>
+        <ResultsView
+          listings={items}
+          images={images}
+          favorites={[...favorites]}
+          authenticated={Boolean(profile)}
+          total={total}
+          offset={Number.isFinite(offset) ? offset : 0}
+          points={points}
+        />
+      </Suspense>
     </div>
   );
 }

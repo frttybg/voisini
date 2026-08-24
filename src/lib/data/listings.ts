@@ -109,6 +109,20 @@ export async function searchListingsExpanding(
   return { ...first, radius: requested, expanded: false };
 }
 
+/** Harita işaretleri için ilan koordinatları (yaklaşık konum). */
+export async function getListingPoints(
+  ids: string[],
+): Promise<Record<string, { lat: number; lng: number }>> {
+  if (!isSupabaseConfigured || !ids.length) return {};
+  const { client } = await userClient();
+  const { data, error } = await client.rpc<{ id: string; lat: number; lng: number }[]>(
+    "listing_points",
+    { p_ids: ids },
+  );
+  if (error || !data) return {};
+  return Object.fromEntries(data.map((row) => [row.id, { lat: row.lat, lng: row.lng }]));
+}
+
 export async function getCategories(): Promise<Category[]> {
   if (!isSupabaseConfigured) return [];
   const { data } = await anonClient()
