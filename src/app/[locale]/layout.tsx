@@ -56,6 +56,11 @@ export async function generateMetadata({
     },
     twitter: { card: "summary_large_image", title: t.meta.title, description: t.meta.description },
     robots: { index: true, follow: true },
+    // Google Search Console doğrulaması. GOOGLE_SITE_VERIFICATION
+    // tanımlıysa etiket eklenir, değilse hiçbir şey yazılmaz.
+    verification: process.env.GOOGLE_SITE_VERIFICATION
+      ? { google: process.env.GOOGLE_SITE_VERIFICATION }
+      : undefined,
   };
 }
 
@@ -80,24 +85,14 @@ export default async function LocaleLayout({
   return (
     <html lang={typedLocale} dir={dir} suppressHydrationWarning>
       <head>
-        {/* Görünümler için yazı tipleri. Yalnızca seçili görünümünkiler
-            kullanılır; tarayıcı kullanılmayan dosyaları indirmez. */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Anton&family=Cormorant+Garamond:wght@300;400;500;600&family=Jost:wght@300;400;500;600&family=Karla:wght@400;500;700&family=Manrope:wght@300;400;500;700&family=Marcellus&display=swap"
-        />
-        {/* Sayfa boyanmadan önce görünüm ve temayı uygular; böylece
+        {/* Sayfa boyanmadan önce açık/koyu tercihini uygular; böylece
             yenilemede bir anlık yanlış renk görünmez. */}
         <script
           dangerouslySetInnerHTML={{
             __html:
-              "(function(){try{var r=document.documentElement;" +
-              "var t=localStorage.getItem('vsi-theme');" +
-              "if(t==='light'||t==='dark')r.setAttribute('data-theme',t);" +
-              "var s=localStorage.getItem('vsi-skin');" +
-              "if(s&&s!=='voisini')r.setAttribute('data-skin',s);}catch(e){}})();",
+              "(function(){try{var t=localStorage.getItem('vsi-theme');" +
+              "if(t==='light'||t==='dark')" +
+              "document.documentElement.setAttribute('data-theme',t);}catch(e){}})();",
           }}
         />
       </head>
@@ -132,6 +127,11 @@ export default async function LocaleLayout({
             <BottomNav authenticated={Boolean(profile)} />
           </ToastProvider>
         </I18nProvider>
+        {/* Vercel ziyaretçi istatistiği — çerez kullanmaz, kişi tanımlamaz.
+            Vercel panelinde Web Analytics açık değilse betik yüklenmez ve
+            hiçbir şey olmaz. */}
+        <script defer src="/_vercel/insights/script.js" />
+        <script defer src="/_vercel/speed-insights/script.js" />
       </body>
     </html>
   );

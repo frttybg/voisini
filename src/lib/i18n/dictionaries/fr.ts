@@ -4,18 +4,6 @@ const fr = {
     description:
       "Le marketplace local et communautaire. Découvre ce qui circule autour de toi et repartage-le avec tes voisins.",
   },
-  appearance: {
-    title: "Apparence",
-    style: "Style",
-    theme: "Thème",
-    system: "Système",
-    light: "Clair",
-    dark: "Sombre",
-    skinVoisini: "Voisini",
-    skinKlasik: "Classique",
-    skinLuks: "Luxe",
-    skinCesur: "Audacieux",
-  },
   nav: {
     discover: "Découvrir",
     addListing: "Déposer une annonce",
