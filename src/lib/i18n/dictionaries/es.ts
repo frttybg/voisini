@@ -251,6 +251,22 @@ const es: Dictionary = {
     language: "Idioma",
     newBadge: "Nuevo",
   },
+  emails: {
+    greeting: "Hola {name}:",
+    button: "Abrir Voisini",
+    why: "Recibes este correo porque eres miembro de Voisini.",
+    off: "Puedes desactivar estas notificaciones desde tu perfil.",
+    newMessageSubject: "{name} te ha escrito en Voisini",
+    newMessageBody: "{name} te ha enviado un mensaje sobre «{listing}».",
+    newMessageCta: "Leer el mensaje",
+    dealRequestSubject: "{name} quiere «{listing}»",
+    dealRequestBody: "{name} ha enviado una solicitud para tu anuncio «{listing}». Tú decides si la aceptas.",
+    dealCta: "Ver la solicitud",
+    dealAcceptedSubject: "Tu solicitud fue aceptada",
+    dealAcceptedBody: "{name} ha aceptado tu solicitud de «{listing}». Acordad lugar y hora en el chat.",
+    dealDeclinedSubject: "Tu solicitud fue rechazada",
+    dealDeclinedBody: "{name} ha rechazado tu solicitud de «{listing}». Puede que haya cosas parecidas cerca.",
+  },
   legal: {
     updated: "Última actualización",
     fallbackNotice:

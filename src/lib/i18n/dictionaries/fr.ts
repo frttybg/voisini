@@ -250,6 +250,22 @@ const fr = {
     language: "Langue",
     newBadge: "Nouveau",
   },
+  emails: {
+    greeting: "Bonjour {name},",
+    button: "Ouvrir Voisini",
+    why: "Tu reçois cet e-mail parce que tu es membre de Voisini.",
+    off: "Tu peux désactiver ces notifications depuis ton profil.",
+    newMessageSubject: "{name} t'a écrit sur Voisini",
+    newMessageBody: "{name} t'a envoyé un message à propos de « {listing} ».",
+    newMessageCta: "Lire le message",
+    dealRequestSubject: "{name} souhaite « {listing} »",
+    dealRequestBody: "{name} vient d'envoyer une demande pour ton annonce « {listing} ». À toi de l'accepter ou de la refuser.",
+    dealCta: "Voir la demande",
+    dealAcceptedSubject: "Ta demande a été acceptée",
+    dealAcceptedBody: "{name} a accepté ta demande pour « {listing} ». Mettez-vous d'accord sur le lieu et l'heure dans la messagerie.",
+    dealDeclinedSubject: "Ta demande a été refusée",
+    dealDeclinedBody: "{name} a refusé ta demande pour « {listing} ». D'autres objets similaires t'attendent peut-être tout près.",
+  },
   legal: {
     updated: "Dernière mise à jour",
     fallbackNotice:

@@ -250,6 +250,22 @@ const en: Dictionary = {
     language: "Language",
     newBadge: "New",
   },
+  emails: {
+    greeting: "Hi {name},",
+    button: "Open Voisini",
+    why: "You are receiving this because you are a Voisini member.",
+    off: "You can turn these notifications off in your profile.",
+    newMessageSubject: "{name} messaged you on Voisini",
+    newMessageBody: "{name} sent you a message about \u201c{listing}\u201d.",
+    newMessageCta: "Read the message",
+    dealRequestSubject: "{name} wants \u201c{listing}\u201d",
+    dealRequestBody: "{name} has sent a request for your listing \u201c{listing}\u201d. It is up to you to accept or decline.",
+    dealCta: "See the request",
+    dealAcceptedSubject: "Your request was accepted",
+    dealAcceptedBody: "{name} accepted your request for \u201c{listing}\u201d. Agree on a time and place in the chat.",
+    dealDeclinedSubject: "Your request was declined",
+    dealDeclinedBody: "{name} declined your request for \u201c{listing}\u201d. There may be similar things nearby.",
+  },
   legal: {
     updated: "Last updated",
     fallbackNotice:

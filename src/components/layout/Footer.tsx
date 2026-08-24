@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useI18n } from "@/lib/i18n/provider";
 import { Logo } from "./Logo";
 import { LocaleSwitcher } from "./LocaleSwitcher";
+import { PUBLISHER } from "@/lib/legal";
 
 export function Footer() {
   const { t, locale } = useI18n();
@@ -24,7 +25,7 @@ export function Footer() {
       links: [
         { label: t.footer.safety, href: href("/#trust") },
         { label: t.footer.help, href: href("/#how") },
-        { label: t.footer.contact, href: "mailto:contact@voisini.com" },
+        { label: t.footer.contact, href: `mailto:${PUBLISHER.email}` },
       ],
     },
     {

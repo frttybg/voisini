@@ -5,6 +5,8 @@ import { userClient } from "@/lib/supabase/server";
 import { stripHtml } from "@/lib/validation";
 import type { Message } from "@/lib/supabase/types";
 import { fail, rateLimit, succeed, type ActionState } from "./shared";
+import { after } from "next/server";
+import { mailNewMessage } from "@/lib/email/notify";
 
 export async function startConversationAction(listingId: string): Promise<ActionState> {
   const { client, userId } = await userClient();
@@ -34,6 +36,10 @@ export async function sendMessageAction(
     p_body: body,
   });
   if (error) return fail(error.message);
+
+  // Bildirim e-postası yanıtı bekletmesin: after() ile yanıt gönderildikten
+  // sonra çalışır ve başarısız olsa bile mesaj gönderimini etkilemez.
+  after(() => mailNewMessage(conversationId, userId));
 
   revalidatePath("/", "layout");
   return succeed();

@@ -247,6 +247,22 @@ const ar: Dictionary = {
     language: "اللغة",
     newBadge: "جديد",
   },
+  emails: {
+    greeting: "مرحبًا {name}،",
+    button: "افتح Voisini",
+    why: "تصلك هذه الرسالة لأنك عضو في Voisini.",
+    off: "يمكنك إيقاف هذه الإشعارات من صفحة ملفك الشخصي.",
+    newMessageSubject: "راسلك {name} على Voisini",
+    newMessageBody: "أرسل لك {name} رسالة بخصوص «{listing}».",
+    newMessageCta: "اقرأ الرسالة",
+    dealRequestSubject: "{name} يريد «{listing}»",
+    dealRequestBody: "أرسل {name} طلبًا بخصوص إعلانك «{listing}». القرار لك بالقبول أو الرفض.",
+    dealCta: "عرض الطلب",
+    dealAcceptedSubject: "تم قبول طلبك",
+    dealAcceptedBody: "قبل {name} طلبك بخصوص «{listing}». اتفقا على المكان والوقت عبر المحادثة.",
+    dealDeclinedSubject: "تم رفض طلبك",
+    dealDeclinedBody: "رفض {name} طلبك بخصوص «{listing}». قد تجد أشياء مشابهة قريبة منك.",
+  },
   legal: {
     updated: "آخر تحديث",
     fallbackNotice:

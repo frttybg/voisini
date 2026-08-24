@@ -251,6 +251,22 @@ const de: Dictionary = {
     language: "Sprache",
     newBadge: "Neu",
   },
+  emails: {
+    greeting: "Hallo {name},",
+    button: "Voisini öffnen",
+    why: "Du erhältst diese E-Mail, weil du Mitglied bei Voisini bist.",
+    off: "Du kannst diese Benachrichtigungen in deinem Profil abschalten.",
+    newMessageSubject: "{name} hat dir auf Voisini geschrieben",
+    newMessageBody: "{name} hat dir eine Nachricht zu \u201e{listing}\u201c geschickt.",
+    newMessageCta: "Nachricht lesen",
+    dealRequestSubject: "{name} möchte \u201e{listing}\u201c",
+    dealRequestBody: "{name} hat eine Anfrage für deine Anzeige \u201e{listing}\u201c gesendet. Du entscheidest, ob du annimmst.",
+    dealCta: "Anfrage ansehen",
+    dealAcceptedSubject: "Deine Anfrage wurde angenommen",
+    dealAcceptedBody: "{name} hat deine Anfrage für \u201e{listing}\u201c angenommen. Klärt Ort und Zeit im Chat.",
+    dealDeclinedSubject: "Deine Anfrage wurde abgelehnt",
+    dealDeclinedBody: "{name} hat deine Anfrage für \u201e{listing}\u201c abgelehnt. Vielleicht gibt es Ähnliches in der Nähe.",
+  },
   legal: {
     updated: "Zuletzt aktualisiert",
     fallbackNotice:

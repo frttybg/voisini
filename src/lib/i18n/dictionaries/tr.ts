@@ -252,6 +252,22 @@ const tr: Dictionary = {
     language: "Dil",
     newBadge: "Yeni",
   },
+  emails: {
+    greeting: "Merhaba {name},",
+    button: "Voisini'yi aç",
+    why: "Bu e-postayı Voisini üyesi olduğun için aldın.",
+    off: "Bu bildirimleri profil sayfandan kapatabilirsin.",
+    newMessageSubject: "{name} sana Voisini'den yazdı",
+    newMessageBody: "{name}, « {listing} » ilanıyla ilgili sana bir mesaj gönderdi.",
+    newMessageCta: "Mesajı oku",
+    dealRequestSubject: "{name}, « {listing} » ilanını istiyor",
+    dealRequestBody: "{name}, « {listing} » ilanın için bir talep gönderdi. Kabul etmek ya da reddetmek sende.",
+    dealCta: "Talebi gör",
+    dealAcceptedSubject: "Talebin kabul edildi",
+    dealAcceptedBody: "{name}, « {listing} » için talebini kabul etti. Yer ve saati mesajlaşmadan kararlaştırın.",
+    dealDeclinedSubject: "Talebin reddedildi",
+    dealDeclinedBody: "{name}, « {listing} » için talebini reddetti. Yakınında benzer eşyalar olabilir.",
+  },
   legal: {
     updated: "Son güncelleme",
     fallbackNotice:

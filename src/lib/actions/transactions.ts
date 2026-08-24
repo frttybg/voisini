@@ -6,6 +6,8 @@ import { stripHtml } from "@/lib/validation";
 import type { DealRow, RatingRow, SwapOfferRow } from "@/lib/supabase/types";
 import { releaseDepositForTransaction } from "./payments";
 import { fail, rateLimit, succeed, type ActionState } from "./shared";
+import { after } from "next/server";
+import { mailDealAnswered, mailDealRequested } from "@/lib/email/notify";
 
 /* ------------------------------------------------------------- Talepler */
 
@@ -34,6 +36,9 @@ export async function requestDealAction(
   });
 
   if (error) return fail(error.message);
+
+  if (data) after(() => mailDealRequested(data));
+
   revalidatePath("/", "layout");
   return succeed("requestSent", { data: { transactionId: data } });
 }
@@ -50,6 +55,8 @@ export async function respondDealAction(
     p_accept: accept,
   });
   if (error) return fail(error.message);
+
+  after(() => mailDealAnswered(transactionId, accept));
 
   revalidatePath("/", "layout");
   return succeed("saved");

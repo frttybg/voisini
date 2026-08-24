@@ -28,7 +28,9 @@ export const PUBLISHER = {
   name: "Ferit Tayboga",
   /** "particulier" | "micro-entreprise" | "societe" */
   status: "particulier" as const,
-  email: "contact@voisini.com",
+  // Alan adı e-postası kurulunca burayı contact@voisini.com yap; sayfalar
+  // ve alt menü bu tek değerden besleniyor.
+  email: "frttybg@gmail.com",
   country: "France",
   /** Ticari kayıt yapıldığında doldurulacak alanlar */
   siret: "",
