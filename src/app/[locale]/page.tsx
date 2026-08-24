@@ -6,6 +6,7 @@ import {
   getFavoriteIds,
   getPlatformStats,
   imageUrl,
+  getViewerLocation,
   searchListingsExpanding,
 } from "@/lib/data/listings";
 import { formatDistance, formatPrice } from "@/lib/utils";
@@ -27,13 +28,19 @@ export default async function HomePage({
   const locale = (isLocale(raw) ? raw : "fr") as Locale;
   const t = getDictionary(locale);
 
-  const profile = await getCurrentProfile();
+  const [profile, viewerLocation] = await Promise.all([
+    getCurrentProfile(),
+    getViewerLocation(),
+  ]);
+
+  // Oturum açmış kullanıcı kendi semtini görsün; misafir için Paris.
+  const center = viewerLocation ?? DEFAULT_LOCATION;
 
   const [{ items: nearby, total, expanded: nearbyExpanded }, categories, favorites, stats] =
     await Promise.all([
       searchListingsExpanding({
-        lat: DEFAULT_LOCATION.lat,
-        lng: DEFAULT_LOCATION.lng,
+        lat: center.lat,
+        lng: center.lng,
         radius: profile?.search_radius_m ?? 50000,
         sort: "recent",
         limit: 12,

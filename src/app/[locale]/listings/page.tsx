@@ -6,6 +6,7 @@ import {
   DEFAULT_LOCATION,
   getCategories,
   getFavoriteIds,
+  getViewerLocation,
   imageUrl,
   searchListingsExpanding,
 } from "@/lib/data/listings";
@@ -45,11 +46,17 @@ export default async function ListingsPage({
     return Array.isArray(value) ? value[0] : value;
   };
 
-  const profile = await getCurrentProfile();
+  const [profile, viewerLocation] = await Promise.all([
+    getCurrentProfile(),
+    getViewerLocation(),
+  ]);
 
   const lat = Number(one("lat"));
   const lng = Number(one("lng"));
   const hasCoords = Number.isFinite(lat) && Number.isFinite(lng);
+
+  // Merkez sırası: adresteki koordinat → kullanıcının kayıtlı konumu → Paris
+  const center = hasCoords ? { lat, lng } : (viewerLocation ?? DEFAULT_LOCATION);
 
   const type = one("type") as ListingType | undefined;
   const sort = (one("sort") ?? "distance") as "distance" | "recent" | "price_asc" | "price_desc";
@@ -58,8 +65,8 @@ export default async function ListingsPage({
 
   const [{ items, total, radius: usedRadius, expanded }, categories, favorites] = await Promise.all([
     searchListingsExpanding({
-      lat: hasCoords ? lat : DEFAULT_LOCATION.lat,
-      lng: hasCoords ? lng : DEFAULT_LOCATION.lng,
+      lat: center.lat,
+      lng: center.lng,
       radius: Number.isFinite(radius) ? radius : 25000,
       types: type ? [type] : null,
       category: one("category") ?? null,

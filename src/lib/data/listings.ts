@@ -51,6 +51,26 @@ export async function searchListings(params: SearchParams): Promise<{
 }
 
 /**
+ * Oturum açmış kullanıcının kayıtlı (yaklaşık) konumu.
+ * Yoksa null döner ve çağıran taraf Paris'e düşer.
+ */
+export async function getViewerLocation(): Promise<{ lat: number; lng: number } | null> {
+  if (!isSupabaseConfigured) return null;
+  const { client, userId } = await userClient();
+  if (!userId) return null;
+
+  const { data, error } = await client.rpc<{ lat?: unknown; lng?: unknown } | null>(
+    "my_location",
+  );
+  if (error || !data) return null;
+
+  const lat = Number(data.lat);
+  const lng = Number(data.lng);
+  if (!Number.isFinite(lat) || !Number.isFinite(lng)) return null;
+  return { lat, lng };
+}
+
+/**
  * Yarıçap merdiveni. Kullanıcının seçtiği çevrede hiç ilan yoksa arama
  * kademeli olarak genişletilir; böylece yeni bir bölgeden gelen ziyaretçi
  * bomboş bir sayfa yerine "biraz daha uzakta" olanları görür.
