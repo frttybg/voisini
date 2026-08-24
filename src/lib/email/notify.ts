@@ -263,3 +263,70 @@ export async function mailDealAnswered(transactionId: string, accepted: boolean)
     console.error("[email] mailDealAnswered", error);
   }
 }
+
+/* ----------------------------------------------------- günlük görevler */
+
+/** Ödünç/kiralamada iade tarihi yaklaşan tarafa hatırlatma. */
+export async function mailReturnReminder(row: {
+  transaction_id: string;
+  buyer_id: string;
+  seller_id: string;
+  listing_title: string | null;
+  due_at: string;
+}) {
+  try {
+    const [target, ownerName] = await Promise.all([
+      mailTarget(row.buyer_id),
+      displayName(row.seller_id),
+    ]);
+    if (!target) return;
+
+    const locale: Locale = isLocale(target.locale) ? (target.locale as Locale) : "fr";
+    const t = getDictionary(locale);
+    const date = new Intl.DateTimeFormat(locale, {
+      day: "numeric",
+      month: "long",
+    }).format(new Date(row.due_at));
+
+    const values = { listing: row.listing_title ?? "", name: ownerName, date };
+
+    await deliver({
+      target,
+      subject: fill(t.emails.returnSubject, values),
+      body: fill(t.emails.returnBody, values),
+      ctaLabel: t.emails.returnCta,
+      path: "/deals",
+      idempotencyKey: `return-${row.transaction_id}`,
+    });
+  } catch (error) {
+    console.error("[email] mailReturnReminder", error);
+  }
+}
+
+/** Haftalık özet: çevredeki yeni ilanlar. */
+export async function mailWeeklyDigest(row: {
+  user_id: string;
+  new_count: number;
+  samples: string[] | null;
+}) {
+  try {
+    const target = await mailTarget(row.user_id);
+    if (!target || row.new_count < 1) return;
+
+    const locale: Locale = isLocale(target.locale) ? (target.locale as Locale) : "fr";
+    const t = getDictionary(locale);
+    const samples = (row.samples ?? []).filter(Boolean).slice(0, 3).join(", ");
+    const values = { count: String(row.new_count), samples };
+
+    await deliver({
+      target,
+      subject: fill(t.emails.digestSubject, values),
+      body: fill(t.emails.digestBody, values),
+      ctaLabel: t.emails.digestCta,
+      path: "/listings",
+      idempotencyKey: `digest-${row.user_id}-${new Date().toISOString().slice(0, 10)}`,
+    });
+  } catch (error) {
+    console.error("[email] mailWeeklyDigest", error);
+  }
+}

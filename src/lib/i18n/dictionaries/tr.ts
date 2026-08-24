@@ -300,6 +300,12 @@ const tr: Dictionary = {
     dealAcceptedBody: "{name}, « {listing} » için talebini kabul etti. Yer ve saati mesajlaşmadan kararlaştırın.",
     dealDeclinedSubject: "Talebin reddedildi",
     dealDeclinedBody: "{name}, « {listing} » için talebini reddetti. Yakınında benzer eşyalar olabilir.",
+    returnSubject: "« {listing} » iadesini unutma",
+    returnBody: "« {listing} » için kararlaştırılan tarih {date}. {name} ile kısa bir mesajlaşma her şeyi çözer.",
+    returnCta: "İşlemi gör",
+    digestSubject: "Yakınında {count} yeni ilan",
+    digestBody: "Bu hafta mahallende {count} ilan yayınlandı. Örneğin: {samples}.",
+    digestCta: "Neler var bak",
   },
   legal: {
     updated: "Son güncelleme",

@@ -298,6 +298,12 @@ const fr = {
     dealAcceptedBody: "{name} a accepté ta demande pour « {listing} ». Mettez-vous d'accord sur le lieu et l'heure dans la messagerie.",
     dealDeclinedSubject: "Ta demande a été refusée",
     dealDeclinedBody: "{name} a refusé ta demande pour « {listing} ». D'autres objets similaires t'attendent peut-être tout près.",
+    returnSubject: "N'oublie pas de rendre « {listing} »",
+    returnBody: "La date convenue pour « {listing} » est {date}. Un petit message à {name} et tout est réglé.",
+    returnCta: "Voir la transaction",
+    digestSubject: "{count} nouveautés près de chez toi",
+    digestBody: "Cette semaine, {count} annonces sont apparues dans ton quartier. Par exemple : {samples}.",
+    digestCta: "Voir ce qui circule",
   },
   legal: {
     updated: "Dernière mise à jour",

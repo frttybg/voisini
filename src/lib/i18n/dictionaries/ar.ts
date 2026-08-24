@@ -295,6 +295,12 @@ const ar: Dictionary = {
     dealAcceptedBody: "قبل {name} طلبك بخصوص «{listing}». اتفقا على المكان والوقت عبر المحادثة.",
     dealDeclinedSubject: "تم رفض طلبك",
     dealDeclinedBody: "رفض {name} طلبك بخصوص «{listing}». قد تجد أشياء مشابهة قريبة منك.",
+    returnSubject: "لا تنسَ إعادة «{listing}»",
+    returnBody: "التاريخ المتفق عليه لـ «{listing}» هو {date}. رسالة قصيرة إلى {name} تكفي.",
+    returnCta: "عرض المعاملة",
+    digestSubject: "{count} إعلانات جديدة بالقرب منك",
+    digestBody: "ظهر هذا الأسبوع {count} إعلانًا في حيّك. مثلًا: {samples}.",
+    digestCta: "شاهد ما يوجد حولك",
   },
   legal: {
     updated: "آخر تحديث",

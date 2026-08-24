@@ -299,6 +299,12 @@ const de: Dictionary = {
     dealAcceptedBody: "{name} hat deine Anfrage für \u201e{listing}\u201c angenommen. Klärt Ort und Zeit im Chat.",
     dealDeclinedSubject: "Deine Anfrage wurde abgelehnt",
     dealDeclinedBody: "{name} hat deine Anfrage für \u201e{listing}\u201c abgelehnt. Vielleicht gibt es Ähnliches in der Nähe.",
+    returnSubject: "Denk an die Rückgabe von \u201e{listing}\u201c",
+    returnBody: "Der vereinbarte Termin für \u201e{listing}\u201c ist {date}. Eine kurze Nachricht an {name} genügt.",
+    returnCta: "Vorgang ansehen",
+    digestSubject: "{count} Neuigkeiten in deiner Nähe",
+    digestBody: "Diese Woche sind {count} Anzeigen in deiner Nachbarschaft erschienen. Zum Beispiel: {samples}.",
+    digestCta: "Ansehen, was da ist",
   },
   legal: {
     updated: "Zuletzt aktualisiert",
