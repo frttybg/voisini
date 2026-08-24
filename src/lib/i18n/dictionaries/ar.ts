@@ -235,6 +235,17 @@ const ar: Dictionary = {
     language: "اللغة",
     newBadge: "جديد",
   },
+  alerts: {
+    title: "تنبيهاتي",
+    save: "أنشئ تنبيهًا",
+    saved: "تم إنشاء التنبيه",
+    empty: "لا توجد تنبيهات بعد",
+    emptyText: "احفظ بحثًا: عند ظهور إعلان مطابق ستصلك رسالة بريد.",
+    delete: "حذف",
+    mine: "تنبيهاتي",
+    within: "ضمن {radius}",
+    limit: "بلغت الحد الأقصى وهو ٢٠ تنبيهًا.",
+  },
   report: {
     reason: "السبب",
     spam: "رسائل مزعجة أو إعلانات",
@@ -301,6 +312,9 @@ const ar: Dictionary = {
     digestSubject: "{count} إعلانات جديدة بالقرب منك",
     digestBody: "ظهر هذا الأسبوع {count} إعلانًا في حيّك. مثلًا: {samples}.",
     digestCta: "شاهد ما يوجد حولك",
+    alertSubject: "{count} إعلانات لـ «{label}»",
+    alertBody: "بحثك «{label}» لديه نتائج جديدة: {samples}.",
+    alertCta: "عرض الإعلانات",
   },
   legal: {
     updated: "آخر تحديث",

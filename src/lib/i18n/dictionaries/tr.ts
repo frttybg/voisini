@@ -240,6 +240,17 @@ const tr: Dictionary = {
     language: "Dil",
     newBadge: "Yeni",
   },
+  alerts: {
+    title: "Alarmlarım",
+    save: "Alarm kur",
+    saved: "Alarm kuruldu",
+    empty: "Henüz alarm yok",
+    emptyText: "Bir aramayı kaydet: ona uyan bir ilan çıktığında e-posta alırsın.",
+    delete: "Sil",
+    mine: "Alarmlarım",
+    within: "{radius} içinde",
+    limit: "En fazla 20 alarm kurabilirsin.",
+  },
   report: {
     reason: "Sebep",
     spam: "Spam ya da reklam",
@@ -306,6 +317,9 @@ const tr: Dictionary = {
     digestSubject: "Yakınında {count} yeni ilan",
     digestBody: "Bu hafta mahallende {count} ilan yayınlandı. Örneğin: {samples}.",
     digestCta: "Neler var bak",
+    alertSubject: "« {label} » için {count} ilan",
+    alertBody: "« {label} » aramanda yeni sonuçlar var: {samples}.",
+    alertCta: "İlanları gör",
   },
   legal: {
     updated: "Son güncelleme",

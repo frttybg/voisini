@@ -238,6 +238,17 @@ const en: Dictionary = {
     language: "Language",
     newBadge: "New",
   },
+  alerts: {
+    title: "My alerts",
+    save: "Create an alert",
+    saved: "Alert created",
+    empty: "No alerts yet",
+    emptyText: "Save a search: as soon as a listing matches it, you get an email.",
+    delete: "Delete",
+    mine: "My alerts",
+    within: "within {radius}",
+    limit: "You have reached the maximum of 20 alerts.",
+  },
   report: {
     reason: "Reason",
     spam: "Spam or advertising",
@@ -304,6 +315,9 @@ const en: Dictionary = {
     digestSubject: "{count} new things near you",
     digestBody: "This week {count} listings appeared in your neighbourhood. For example: {samples}.",
     digestCta: "See what is around",
+    alertSubject: "{count} listings for \u201c{label}\u201d",
+    alertBody: "Your search \u201c{label}\u201d has new results: {samples}.",
+    alertCta: "See the listings",
   },
   legal: {
     updated: "Last updated",

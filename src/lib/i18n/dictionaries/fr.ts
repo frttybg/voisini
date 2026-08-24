@@ -238,6 +238,17 @@ const fr = {
     language: "Langue",
     newBadge: "Nouveau",
   },
+  alerts: {
+    title: "Mes alertes",
+    save: "Créer une alerte",
+    saved: "Alerte créée",
+    empty: "Aucune alerte pour l'instant",
+    emptyText: "Enregistre une recherche : dès qu'une annonce y correspond, tu reçois un e-mail.",
+    delete: "Supprimer",
+    mine: "Mes alertes",
+    within: "dans {radius}",
+    limit: "Tu as atteint le maximum de 20 alertes.",
+  },
   report: {
     reason: "Motif",
     spam: "Spam ou publicité",
@@ -304,6 +315,9 @@ const fr = {
     digestSubject: "{count} nouveautés près de chez toi",
     digestBody: "Cette semaine, {count} annonces sont apparues dans ton quartier. Par exemple : {samples}.",
     digestCta: "Voir ce qui circule",
+    alertSubject: "{count} annonces pour « {label} »",
+    alertBody: "Ta recherche « {label} » a de nouveaux résultats : {samples}.",
+    alertCta: "Voir les annonces",
   },
   legal: {
     updated: "Dernière mise à jour",

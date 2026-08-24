@@ -15,6 +15,7 @@ import { formatDistance } from "@/lib/utils";
 import { Icon } from "@/components/ui/Icon";
 import { Filters } from "@/components/listings/Filters";
 import { ResultsView } from "@/components/listings/ResultsView";
+import { SaveSearchButton } from "@/components/listings/SaveSearchButton";
 import { SearchBar } from "@/components/home/SearchBar";
 import type { ListingType } from "@/lib/supabase/types";
 
@@ -126,6 +127,17 @@ export default async function ListingsPage({
           </span>
         </div>
       ) : null}
+
+      <Suspense>
+        <div className="mb-4">
+          <SaveSearchButton
+            authenticated={Boolean(profile)}
+            locale={locale}
+            fallbackLat={center.lat}
+            fallbackLng={center.lng}
+          />
+        </div>
+      </Suspense>
 
       <Suspense>
         <ResultsView

@@ -330,3 +330,33 @@ export async function mailWeeklyDigest(row: {
     console.error("[email] mailWeeklyDigest", error);
   }
 }
+
+/** Kayıtlı aramaya uyan yeni ilanlar çıktığında. */
+export async function mailSearchAlert(row: {
+  search_id: string;
+  user_id: string;
+  label: string;
+  new_count: number;
+  samples: string[] | null;
+}) {
+  try {
+    const target = await mailTarget(row.user_id);
+    if (!target || row.new_count < 1) return;
+
+    const locale: Locale = isLocale(target.locale) ? (target.locale as Locale) : "fr";
+    const t = getDictionary(locale);
+    const samples = (row.samples ?? []).filter(Boolean).slice(0, 3).join(", ");
+    const values = { count: String(row.new_count), label: row.label, samples };
+
+    await deliver({
+      target,
+      subject: fill(t.emails.alertSubject, values),
+      body: fill(t.emails.alertBody, values),
+      ctaLabel: t.emails.alertCta,
+      path: "/listings",
+      idempotencyKey: `alert-${row.search_id}-${new Date().toISOString().slice(0, 10)}`,
+    });
+  } catch (error) {
+    console.error("[email] mailSearchAlert", error);
+  }
+}

@@ -239,6 +239,17 @@ const es: Dictionary = {
     language: "Idioma",
     newBadge: "Nuevo",
   },
+  alerts: {
+    title: "Mis alertas",
+    save: "Crear una alerta",
+    saved: "Alerta creada",
+    empty: "Aún no tienes alertas",
+    emptyText: "Guarda una búsqueda: en cuanto un anuncio coincida, recibirás un correo.",
+    delete: "Eliminar",
+    mine: "Mis alertas",
+    within: "en {radius}",
+    limit: "Has alcanzado el máximo de 20 alertas.",
+  },
   report: {
     reason: "Motivo",
     spam: "Spam o publicidad",
@@ -305,6 +316,9 @@ const es: Dictionary = {
     digestSubject: "{count} novedades cerca de ti",
     digestBody: "Esta semana han aparecido {count} anuncios en tu barrio. Por ejemplo: {samples}.",
     digestCta: "Ver qué hay cerca",
+    alertSubject: "{count} anuncios para «{label}»",
+    alertBody: "Tu búsqueda «{label}» tiene resultados nuevos: {samples}.",
+    alertCta: "Ver los anuncios",
   },
   legal: {
     updated: "Última actualización",

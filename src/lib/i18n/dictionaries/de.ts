@@ -239,6 +239,17 @@ const de: Dictionary = {
     language: "Sprache",
     newBadge: "Neu",
   },
+  alerts: {
+    title: "Meine Suchaufträge",
+    save: "Suchauftrag anlegen",
+    saved: "Suchauftrag angelegt",
+    empty: "Noch keine Suchaufträge",
+    emptyText: "Speichere eine Suche: Sobald eine Anzeige passt, bekommst du eine E-Mail.",
+    delete: "Löschen",
+    mine: "Meine Suchaufträge",
+    within: "im Umkreis von {radius}",
+    limit: "Du hast das Maximum von 20 Suchaufträgen erreicht.",
+  },
   report: {
     reason: "Grund",
     spam: "Spam oder Werbung",
@@ -305,6 +316,9 @@ const de: Dictionary = {
     digestSubject: "{count} Neuigkeiten in deiner Nähe",
     digestBody: "Diese Woche sind {count} Anzeigen in deiner Nachbarschaft erschienen. Zum Beispiel: {samples}.",
     digestCta: "Ansehen, was da ist",
+    alertSubject: "{count} Anzeigen für \u201e{label}\u201c",
+    alertBody: "Deine Suche \u201e{label}\u201c hat neue Treffer: {samples}.",
+    alertCta: "Anzeigen ansehen",
   },
   legal: {
     updated: "Zuletzt aktualisiert",
