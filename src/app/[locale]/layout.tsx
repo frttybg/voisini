@@ -41,6 +41,7 @@ export async function generateMetadata({
     title: { default: t.meta.title, template: "%s · Voisini" },
     description: t.meta.description,
     applicationName: "Voisini",
+    manifest: "/manifest.webmanifest",
     alternates: {
       canonical: `${base}/${locale}`,
       languages: Object.fromEntries(locales.map((l) => [l, `${base}/${l}`])),
@@ -78,6 +79,28 @@ export default async function LocaleLayout({
 
   return (
     <html lang={typedLocale} dir={dir} suppressHydrationWarning>
+      <head>
+        {/* Görünümler için yazı tipleri. Yalnızca seçili görünümünkiler
+            kullanılır; tarayıcı kullanılmayan dosyaları indirmez. */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Anton&family=Cormorant+Garamond:wght@300;400;500;600&family=Jost:wght@300;400;500;600&family=Karla:wght@400;500;700&family=Manrope:wght@300;400;500;700&family=Marcellus&display=swap"
+        />
+        {/* Sayfa boyanmadan önce görünüm ve temayı uygular; böylece
+            yenilemede bir anlık yanlış renk görünmez. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "(function(){try{var r=document.documentElement;" +
+              "var t=localStorage.getItem('vsi-theme');" +
+              "if(t==='light'||t==='dark')r.setAttribute('data-theme',t);" +
+              "var s=localStorage.getItem('vsi-skin');" +
+              "if(s&&s!=='voisini')r.setAttribute('data-skin',s);}catch(e){}})();",
+          }}
+        />
+      </head>
       <body className="min-h-dvh antialiased">
         <I18nProvider locale={typedLocale} dictionary={dictionary} dir={dir}>
           <ToastProvider>
