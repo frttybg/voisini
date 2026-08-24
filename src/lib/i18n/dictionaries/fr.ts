@@ -55,6 +55,7 @@ const fr = {
     categoriesText: "Douze univers, un seul quartier.",
     nearbyTitle: "Il y a des choses à découvrir près de toi",
     nearbyText: "Trié par distance, mis à jour en direct.",
+    nearbyWideText: "Rien encore près de toi — voici ce qui circule ailleurs.",
     howTitle: "Comment ça marche",
     howText: "Quatre étapes, aucune paperasse.",
     trustTitle: "La confiance d'abord",
@@ -107,6 +108,7 @@ const fr = {
     map: "Carte",
     list: "Liste",
     customDistance: "Distance personnalisée",
+    expanded: "Rien à moins de {from}. Voici les annonces jusqu'à {to}.",
   },
   conditions: {
     new: "Neuf",

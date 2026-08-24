@@ -57,6 +57,7 @@ const tr: Dictionary = {
     categoriesText: "On iki dünya, tek bir mahalle.",
     nearbyTitle: "Yakınında keşfedilecek şeyler var",
     nearbyText: "Mesafeye göre sıralı, canlı güncelleniyor.",
+    nearbyWideText: "Yakınında henüz ilan yok — başka yerlerden birkaç örnek.",
     howTitle: "Nasıl çalışır?",
     howText: "Dört adım, sıfır evrak.",
     trustTitle: "Önce güven",
@@ -109,6 +110,7 @@ const tr: Dictionary = {
     map: "Harita",
     list: "Liste",
     customDistance: "Özel mesafe",
+    expanded: "{from} içinde ilan yok. {to} çapındaki ilanları gösteriyoruz.",
   },
   conditions: {
     new: "Sıfır",

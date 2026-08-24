@@ -7,8 +7,10 @@ import {
   getCategories,
   getFavoriteIds,
   imageUrl,
-  searchListings,
+  searchListingsExpanding,
 } from "@/lib/data/listings";
+import { formatDistance } from "@/lib/utils";
+import { Icon } from "@/components/ui/Icon";
 import { Filters } from "@/components/listings/Filters";
 import { ResultsGrid } from "@/components/listings/ResultsGrid";
 import { SearchBar } from "@/components/home/SearchBar";
@@ -54,8 +56,8 @@ export default async function ListingsPage({
   const radius = Number(one("radius") ?? profile?.search_radius_m ?? 25000);
   const offset = Number(one("offset") ?? 0);
 
-  const [{ items, total }, categories, favorites] = await Promise.all([
-    searchListings({
+  const [{ items, total, radius: usedRadius, expanded }, categories, favorites] = await Promise.all([
+    searchListingsExpanding({
       lat: hasCoords ? lat : DEFAULT_LOCATION.lat,
       lng: hasCoords ? lng : DEFAULT_LOCATION.lng,
       radius: Number.isFinite(radius) ? radius : 25000,
@@ -98,6 +100,23 @@ export default async function ListingsPage({
           }))}
         />
       </Suspense>
+
+      {expanded ? (
+        <div
+          className="mb-5 flex items-start gap-2.5 rounded-[var(--radius-md)] border border-[var(--line)] px-4 py-3 text-[0.8125rem] text-[var(--ink-muted)]"
+          style={{ background: "color-mix(in oklab, var(--brand-500) 6%, transparent)" }}
+        >
+          <Icon name="pin" size={15} className="mt-0.5 shrink-0 text-[var(--brand-600)]" />
+          <span>
+            {t.filters.expanded
+              .replace(
+                "{from}",
+                formatDistance(Number.isFinite(radius) ? radius : 25000, locale) ?? "",
+              )
+              .replace("{to}", formatDistance(usedRadius, locale) ?? "")}
+          </span>
+        </div>
+      ) : null}
 
       <ResultsGrid
         listings={items}

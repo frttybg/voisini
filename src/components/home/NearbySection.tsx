@@ -15,12 +15,15 @@ export function NearbySection({
   favorites,
   authenticated,
   locationLabel,
+  wideArea = false,
 }: {
   listings: ListingCardData[];
   images: Record<string, string | null>;
   favorites: string[];
   authenticated: boolean;
   locationLabel: string | null;
+  /** Yakında ilan bulunamadığı için arama daha geniş bir alana açıldı. */
+  wideArea?: boolean;
 }) {
   const { t, locale } = useI18n();
   const [filter, setFilter] = useState<ListingType | "all">("all");
@@ -36,7 +39,13 @@ export function NearbySection({
       <SectionHeading
         eyebrow="05"
         title={t.sections.nearbyTitle}
-        text={locationLabel ? `${locationLabel} · ${t.sections.nearbyText}` : t.sections.nearbyText}
+        text={
+          wideArea
+            ? t.sections.nearbyWideText
+            : locationLabel
+              ? `${locationLabel} · ${t.sections.nearbyText}`
+              : t.sections.nearbyText
+        }
         action={
           <Button href={`/${locale}/listings`} variant="outline" size="sm" iconRight="arrowRight">
             {t.common.seeAll}

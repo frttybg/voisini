@@ -54,6 +54,7 @@ const ar: Dictionary = {
     categoriesText: "اثنا عشر عالمًا في حيّ واحد.",
     nearbyTitle: "هناك ما يستحق الاكتشاف بالقرب منك",
     nearbyText: "مرتّب حسب المسافة، ويُحدَّث مباشرة.",
+    nearbyWideText: "لا شيء بالقرب منك بعد — إليك ما يجري في أماكن أخرى.",
     howTitle: "كيف يعمل",
     howText: "أربع خطوات، بلا أي أوراق.",
     trustTitle: "الثقة أولًا",
@@ -105,6 +106,7 @@ const ar: Dictionary = {
     map: "الخريطة",
     list: "القائمة",
     customDistance: "مسافة مخصّصة",
+    expanded: "لا توجد إعلانات ضمن {from}. نعرض الإعلانات حتى {to}.",
   },
   conditions: {
     new: "جديد",

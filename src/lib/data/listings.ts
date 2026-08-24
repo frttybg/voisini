@@ -50,6 +50,45 @@ export async function searchListings(params: SearchParams): Promise<{
   return { items: data, total: data[0]?.total_count ?? 0 };
 }
 
+/**
+ * Yarıçap merdiveni. Kullanıcının seçtiği çevrede hiç ilan yoksa arama
+ * kademeli olarak genişletilir; böylece yeni bir bölgeden gelen ziyaretçi
+ * bomboş bir sayfa yerine "biraz daha uzakta" olanları görür.
+ */
+const RADIUS_LADDER = [50_000, 200_000, 1_000_000, 20_000_000];
+
+export type SearchOutcome = {
+  items: ListingCard[];
+  total: number;
+  /** Sonuçların gerçekten hangi yarıçapla bulunduğu (metre). */
+  radius: number;
+  /** İstenen yarıçap yetmediği için genişletildi mi? */
+  expanded: boolean;
+};
+
+export async function searchListingsExpanding(
+  params: SearchParams,
+): Promise<SearchOutcome> {
+  const requested = params.radius ?? 25000;
+
+  const first = await searchListings({ ...params, radius: requested });
+  if (first.total > 0) return { ...first, radius: requested, expanded: false };
+
+  // Sayfalama sırasında genişletmeyiz: kullanıcı zaten bir sonuç kümesinde
+  // geziyorsa, ikinci sayfada kapsamı değiştirmek kafa karıştırır.
+  if ((params.offset ?? 0) > 0) {
+    return { ...first, radius: requested, expanded: false };
+  }
+
+  for (const radius of RADIUS_LADDER) {
+    if (radius <= requested) continue;
+    const next = await searchListings({ ...params, radius });
+    if (next.total > 0) return { ...next, radius, expanded: true };
+  }
+
+  return { ...first, radius: requested, expanded: false };
+}
+
 export async function getCategories(): Promise<Category[]> {
   if (!isSupabaseConfigured) return [];
   const { data } = await anonClient()

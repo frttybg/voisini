@@ -57,6 +57,7 @@ const de: Dictionary = {
     categoriesText: "Zwölf Welten, ein Viertel.",
     nearbyTitle: "In deiner Nähe gibt es etwas zu entdecken",
     nearbyText: "Nach Entfernung sortiert, live aktualisiert.",
+    nearbyWideText: "Noch nichts in deiner Nähe — das läuft gerade anderswo.",
     howTitle: "So funktioniert's",
     howText: "Vier Schritte, kein Papierkram.",
     trustTitle: "Vertrauen zuerst",
@@ -109,6 +110,7 @@ const de: Dictionary = {
     map: "Karte",
     list: "Liste",
     customDistance: "Eigene Entfernung",
+    expanded: "Nichts im Umkreis von {from}. Wir zeigen Anzeigen bis {to}.",
   },
   conditions: {
     new: "Neu",

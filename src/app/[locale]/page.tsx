@@ -6,7 +6,7 @@ import {
   getFavoriteIds,
   getPlatformStats,
   imageUrl,
-  searchListings,
+  searchListingsExpanding,
 } from "@/lib/data/listings";
 import { formatDistance, formatPrice } from "@/lib/utils";
 import { Hero, type HeroCard } from "@/components/home/Hero";
@@ -29,18 +29,19 @@ export default async function HomePage({
 
   const profile = await getCurrentProfile();
 
-  const [{ items: nearby, total }, categories, favorites, stats] = await Promise.all([
-    searchListings({
-      lat: DEFAULT_LOCATION.lat,
-      lng: DEFAULT_LOCATION.lng,
-      radius: profile?.search_radius_m ?? 50000,
-      sort: "recent",
-      limit: 12,
-    }),
-    getCategories(),
-    getFavoriteIds(),
-    getPlatformStats(),
-  ]);
+  const [{ items: nearby, total, expanded: nearbyExpanded }, categories, favorites, stats] =
+    await Promise.all([
+      searchListingsExpanding({
+        lat: DEFAULT_LOCATION.lat,
+        lng: DEFAULT_LOCATION.lng,
+        radius: profile?.search_radius_m ?? 50000,
+        sort: "recent",
+        limit: 12,
+      }),
+      getCategories(),
+      getFavoriteIds(),
+      getPlatformStats(),
+    ]);
 
   const images = Object.fromEntries(nearby.map((l) => [l.id, imageUrl(l.image_path)]));
 
@@ -120,6 +121,7 @@ export default async function HomePage({
         favorites={[...favorites]}
         authenticated={Boolean(profile)}
         locationLabel={profile?.city ?? null}
+        wideArea={nearbyExpanded}
       />
       <HowItWorks />
       <Trust />

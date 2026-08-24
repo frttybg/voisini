@@ -57,6 +57,7 @@ const es: Dictionary = {
     categoriesText: "Doce mundos, un solo barrio.",
     nearbyTitle: "Hay cosas por descubrir cerca de ti",
     nearbyText: "Ordenado por distancia, actualizado en directo.",
+    nearbyWideText: "Todavía nada cerca de ti — esto es lo que circula en otros sitios.",
     howTitle: "Cómo funciona",
     howText: "Cuatro pasos, cero papeleo.",
     trustTitle: "Primero la confianza",
@@ -109,6 +110,7 @@ const es: Dictionary = {
     map: "Mapa",
     list: "Lista",
     customDistance: "Distancia personalizada",
+    expanded: "Nada en un radio de {from}. Mostramos anuncios hasta {to}.",
   },
   conditions: {
     new: "Nuevo",

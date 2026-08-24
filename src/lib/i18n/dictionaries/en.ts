@@ -56,6 +56,7 @@ const en: Dictionary = {
     categoriesText: "Twelve worlds, one neighbourhood.",
     nearbyTitle: "There are things to discover near you",
     nearbyText: "Sorted by distance, updated live.",
+    nearbyWideText: "Nothing near you yet — here is what is moving elsewhere.",
     howTitle: "How it works",
     howText: "Four steps, zero paperwork.",
     trustTitle: "Trust first",
@@ -108,6 +109,7 @@ const en: Dictionary = {
     map: "Map",
     list: "List",
     customDistance: "Custom distance",
+    expanded: "Nothing within {from}. Showing listings up to {to}.",
   },
   conditions: {
     new: "New",
