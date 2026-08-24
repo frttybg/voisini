@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useI18n } from "@/lib/i18n/provider";
 import { Icon } from "@/components/ui/Icon";
@@ -71,7 +70,6 @@ export function MapView({
   images: Record<string, string | null>;
 }) {
   const { t, locale } = useI18n();
-  const router = useRouter();
   const boxRef = useRef<HTMLDivElement>(null);
   const [size, setSize] = useState({ w: 0, h: 0 });
   const [view, setView] = useState<{ center: Point; zoom: number }>({
@@ -267,17 +265,16 @@ export function MapView({
         const isActive = listing.id === selected;
 
         return (
-          <button
+          // İşarete basmak doğrudan ilanı açar. Fareyle üzerine gelindiğinde
+          // altta önizleme kartı belirir; dokunmatik cihazda gerek yok,
+          // zaten tek dokunuşla ilana gidiliyor.
+          <Link
             key={listing.id}
-            type="button"
-            onClick={(event) => {
-              event.stopPropagation();
-              // İlk dokunuş kartı açar, aynı işarete tekrar basmak ilana götürür.
-              if (isActive) router.push(`/${locale}/listings/${listing.slug}`);
-              else setSelected(listing.id);
-            }}
+            href={`/${locale}/listings/${listing.slug}`}
+            onMouseEnter={() => setSelected(listing.id)}
+            onMouseLeave={() => setSelected((prev) => (prev === listing.id ? null : prev))}
             aria-label={listing.title}
-            className="absolute -translate-x-1/2 -translate-y-full rounded-full px-2.5 py-1 text-[0.72rem] font-bold whitespace-nowrap shadow-[var(--shadow-card)] transition-transform hover:scale-105"
+            className="absolute -translate-x-1/2 -translate-y-full rounded-full px-2.5 py-1 text-[0.72rem] font-bold whitespace-nowrap shadow-[var(--shadow-card)] transition-transform hover:scale-110"
             style={{
               left,
               top,
@@ -288,15 +285,15 @@ export function MapView({
             }}
           >
             {priceLabel(listing)}
-          </button>
+          </Link>
         );
       })}
 
       {active ? (
-        <div className="absolute inset-x-3 bottom-3 z-40 sm:inset-x-auto sm:start-3 sm:w-72">
+        <div className="pointer-events-none absolute inset-x-3 bottom-3 z-40 sm:inset-x-auto sm:start-3 sm:w-72">
           <Link
             href={`/${locale}/listings/${active.listing.slug}`}
-            className="flex gap-3 rounded-[var(--radius-md)] border border-[var(--line)] bg-[var(--surface-raised)] p-2.5 shadow-[var(--shadow-lift)]"
+            className="pointer-events-auto flex gap-3 rounded-[var(--radius-md)] border border-[var(--line)] bg-[var(--surface-raised)] p-2.5 shadow-[var(--shadow-lift)]"
           >
             <span
               className="h-16 w-16 shrink-0 rounded-[var(--radius-sm)] bg-[var(--surface-sunken)] bg-cover bg-center"
