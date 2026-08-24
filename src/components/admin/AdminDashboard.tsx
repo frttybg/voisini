@@ -75,18 +75,18 @@ export function AdminDashboard({
 
   const tiles: { icon: IconName; label: string; value: string; tone?: string }[] = stats
     ? [
-        { icon: "user", label: "Utilisateurs", value: String(stats.users_total) },
-        { icon: "sparkles", label: "Actifs (30 j)", value: String(stats.users_active_30d) },
-        { icon: "package", label: "Annonces actives", value: String(stats.listings_active) },
-        { icon: "tag", label: "Ventes", value: String(stats.sales) },
-        { icon: "key", label: "Locations", value: String(stats.rentals) },
-        { icon: "swap", label: "Échanges", value: String(stats.swaps) },
-        { icon: "gift", label: "Dons", value: String(stats.gifts) },
-        { icon: "flag", label: "Signalements", value: String(stats.reports_open), tone: "danger" },
-        { icon: "alert", label: "Litiges", value: String(stats.disputes_open), tone: "warning" },
+        { icon: "user", label: t.admin.users, value: String(stats.users_total) },
+        { icon: "sparkles", label: t.admin.activeUsers, value: String(stats.users_active_30d) },
+        { icon: "package", label: t.admin.activeListings, value: String(stats.listings_active) },
+        { icon: "tag", label: t.admin.sales, value: String(stats.sales) },
+        { icon: "key", label: t.admin.rentals, value: String(stats.rentals) },
+        { icon: "swap", label: t.admin.swaps, value: String(stats.swaps) },
+        { icon: "gift", label: t.admin.gifts, value: String(stats.gifts) },
+        { icon: "flag", label: t.admin.reports, value: String(stats.reports_open), tone: "danger" },
+        { icon: "alert", label: t.admin.disputes, value: String(stats.disputes_open), tone: "warning" },
         {
           icon: "shield",
-          label: "Cautions détenues",
+          label: t.admin.depositsHeld,
           value: formatPrice(stats.deposits_held, locale),
         },
       ]

@@ -147,27 +147,33 @@ export function ListingActions({
         {reportState.ok ? (
           <p className="flex items-center gap-2 text-sm text-[var(--success)]">
             <Icon name="check" size={16} />
-            {t.common.saved}
+            {t.report.sent}
           </p>
         ) : (
           <form action={reportAction} className="flex flex-col gap-4">
             <input type="hidden" name="listingId" value={listingId} />
             <div>
               <Label htmlFor="reason" required>
-                {t.listing.reportListing}
+                {t.report.reason}
               </Label>
               <Select id="reason" name="reason" required>
-                <option value="spam">Spam</option>
-                <option value="scam">Fraude / arnaque</option>
-                <option value="illegal">Contenu illégal</option>
-                <option value="offensive">Contenu offensant</option>
-                <option value="wrong_category">Mauvaise catégorie</option>
-                <option value="other">{t.filters.all}</option>
+                <option value="spam">{t.report.spam}</option>
+                <option value="scam">{t.report.scam}</option>
+                <option value="illegal">{t.report.illegal}</option>
+                <option value="offensive">{t.report.offensive}</option>
+                <option value="wrong_category">{t.report.wrongCategory}</option>
+                <option value="other">{t.report.other}</option>
               </Select>
             </div>
             <div>
-              <Label htmlFor="details">{t.listing.description}</Label>
-              <Textarea id="details" name="details" rows={4} maxLength={1000} />
+              <Label htmlFor="details">{t.report.details}</Label>
+              <Textarea
+                id="details"
+                name="details"
+                rows={4}
+                maxLength={1000}
+                placeholder={t.report.detailsPlaceholder}
+              />
             </div>
             <Button type="submit" full loading={reportPending}>
               {t.common.confirm}
