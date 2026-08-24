@@ -30,7 +30,15 @@ function applySkin(next: Skin) {
   else root.setAttribute("data-skin", next);
 }
 
-export function AppearanceMenu() {
+export function AppearanceMenu({
+  allowSkins = false,
+}: {
+  /**
+   * Stil (görünüm) seçimi yalnızca yöneticiye gösterilir. Ziyaretçiler
+   * sitenin tek bir kimliğini görür; gece/gündüz seçimi herkeste açıktır.
+   */
+  allowSkins?: boolean;
+}) {
   const { t } = useI18n();
   const [open, setOpen] = useState(false);
   const [theme, setTheme] = useState<Theme>("system");
@@ -113,8 +121,10 @@ export function AppearanceMenu() {
       {open ? (
         <div
           role="menu"
-          className="absolute end-0 top-full z-50 mt-2 w-60 rounded-[var(--radius-lg)] border border-[var(--line)] bg-[var(--surface-raised)] p-2 shadow-[var(--shadow-lift)]"
+          className="absolute end-0 top-full z-50 mt-2 w-56 rounded-[var(--radius-lg)] border border-[var(--line)] bg-[var(--surface-raised)] p-2 shadow-[var(--shadow-lift)]"
         >
+          {allowSkins ? (
+            <>
           <p className="px-2 pb-1.5 pt-1 text-[0.68rem] font-bold uppercase tracking-[0.16em] text-[var(--ink-muted)]">
             {t.appearance.style}
           </p>
@@ -148,8 +158,14 @@ export function AppearanceMenu() {
               </button>
             ))}
           </div>
+            </>
+          ) : null}
 
-          <p className="px-2 pb-1.5 pt-3 text-[0.68rem] font-bold uppercase tracking-[0.16em] text-[var(--ink-muted)]">
+          <p
+            className={`px-2 pb-1.5 text-[0.68rem] font-bold uppercase tracking-[0.16em] text-[var(--ink-muted)] ${
+              allowSkins ? "pt-3" : "pt-1"
+            }`}
+          >
             {t.appearance.theme}
           </p>
 

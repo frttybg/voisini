@@ -86,7 +86,7 @@ export function Navbar({
           <div className="hidden sm:block">
             <LocaleSwitcher />
           </div>
-          <AppearanceMenu />
+          <AppearanceMenu allowSkins={profile?.role === "admin"} />
 
           {profile ? (
             <>
