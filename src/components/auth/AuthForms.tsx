@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useActionState, useEffect, type ReactNode } from "react";
+import { useActionState, type ReactNode } from "react";
 import { useI18n } from "@/lib/i18n/provider";
 import { Button } from "@/components/ui/Button";
 import { FieldError, Input, Label } from "@/components/ui/Field";
@@ -16,6 +16,7 @@ import {
   updatePasswordAction,
 } from "@/lib/actions/auth";
 import { idleState } from "@/lib/actions/state";
+import { useActionSuccess } from "@/lib/useActionSuccess";
 import type { Dictionary } from "@/lib/i18n";
 
 function errorText(t: Dictionary, key?: string) {
@@ -93,9 +94,9 @@ export function LoginForm() {
   const search = useSearchParams();
   const [state, formAction, pending] = useActionState(signInAction, idleState);
 
-  useEffect(() => {
-    if (state.ok && state.redirect) router.push(state.redirect);
-  }, [state, router]);
+  useActionSuccess(state, () => {
+    if (state.redirect) router.push(state.redirect);
+  });
 
   return (
     <AuthShell
@@ -167,9 +168,9 @@ export function RegisterForm() {
     idleState,
   );
 
-  useEffect(() => {
-    if (state.ok && state.redirect) router.push(state.redirect);
-  }, [state, router]);
+  useActionSuccess(state, () => {
+    if (state.redirect) router.push(state.redirect);
+  });
 
   if (state.ok && state.message === "checkEmail") {
     const email = String(state.data?.email ?? "");
@@ -292,9 +293,9 @@ export function ResetPasswordForm() {
   const router = useRouter();
   const [state, formAction, pending] = useActionState(updatePasswordAction, idleState);
 
-  useEffect(() => {
-    if (state.ok && state.redirect) router.push(state.redirect);
-  }, [state, router]);
+  useActionSuccess(state, () => {
+    if (state.redirect) router.push(state.redirect);
+  });
 
   return (
     <AuthShell title={t.auth.newPassword} subtitle={t.auth.passwordHint}>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useEffect, useState } from "react";
+import { useActionState, useState } from "react";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n/provider";
@@ -14,6 +14,7 @@ import {
   submitRatingAction,
 } from "@/lib/actions/transactions";
 import { idleState } from "@/lib/actions/state";
+import { useActionSuccess } from "@/lib/useActionSuccess";
 import type { ListingType } from "@/lib/supabase/types";
 
 /* ------------------------------------------------------- Talep modalı */
@@ -34,13 +35,11 @@ export function DealRequestModal({
   const { toast } = useToast();
   const [state, formAction, pending] = useActionState(requestDealAction, idleState);
 
-  useEffect(() => {
-    if (state.ok) {
-      toast(t.deal.requestSent, "success");
-      onClose();
-      router.push(`/${locale}/deals`);
-    }
-  }, [state, toast, t, onClose, router, locale]);
+  useActionSuccess(state, () => {
+    toast(t.deal.requestSent, "success");
+    onClose();
+    router.push(`/${locale}/deals`);
+  });
 
   const needsDates = type === "rent" || type === "lend";
 
@@ -112,13 +111,11 @@ export function SwapOfferModal({
   const { toast } = useToast();
   const [state, formAction, pending] = useActionState(createSwapOfferAction, idleState);
 
-  useEffect(() => {
-    if (state.ok) {
-      toast(t.swapOffer.sent, "success");
-      onClose();
-      router.push(`/${locale}/deals`);
-    }
-  }, [state, toast, t, onClose, router, locale]);
+  useActionSuccess(state, () => {
+    toast(t.swapOffer.sent, "success");
+    onClose();
+    router.push(`/${locale}/deals`);
+  });
 
   return (
     <Modal open={open} onClose={onClose} title={t.swapOffer.title}>
@@ -190,12 +187,10 @@ export function RatingModal({
   const [score, setScore] = useState(5);
   const [state, formAction, pending] = useActionState(submitRatingAction, idleState);
 
-  useEffect(() => {
-    if (state.ok) {
-      toast(t.rating.thanks, "success");
-      onClose();
-    }
-  }, [state, toast, t, onClose]);
+  useActionSuccess(state, () => {
+    toast(t.rating.thanks, "success");
+    onClose();
+  });
 
   return (
     <Modal open={open} onClose={onClose} title={t.rating.title}>

@@ -33,6 +33,10 @@ export async function GET(request: Request) {
   const nextParam = url.searchParams.get("next");
   const next = nextParam && nextParam.startsWith("/") ? nextParam : `/${defaultLocale}`;
 
+  // Şifre yenileme bağlantısında dil bilgisini `next`ten koruyoruz.
+  const localeFromNext = next.split("/")[1] || defaultLocale;
+  const recoveryNext = `/${localeFromNext}/reset-password`;
+
   // --- 1. Sunucuda doğrulanabilen biçimler ------------------------------
   if (tokenHash || code) {
     const result = tokenHash
@@ -41,7 +45,9 @@ export async function GET(request: Request) {
 
     if (result.data) {
       await writeSessionCookies(result.data);
-      return NextResponse.redirect(new URL(next, url.origin));
+      const target =
+        type === "recovery" && !next.includes("reset-password") ? recoveryNext : next;
+      return NextResponse.redirect(new URL(target, url.origin));
     }
     return NextResponse.redirect(
       new URL(`/${defaultLocale}/login?error=link`, url.origin),
@@ -86,6 +92,11 @@ export async function GET(request: Request) {
   if (!accessToken || !refreshToken) {
     window.location.replace(fallback + "?error=link");
     return;
+  }
+
+  // Şifre yenileme bağlantısı her zaman yeni şifre ekranında bitmeli.
+  if (params.get("type") === "recovery" && next.indexOf("reset-password") === -1) {
+    next = ${JSON.stringify(recoveryNext)};
   }
 
   fetch("/api/auth/session", {
