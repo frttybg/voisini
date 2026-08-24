@@ -6,18 +6,6 @@ const en: Dictionary = {
     description:
       "The local, community-run marketplace. Discover what's circulating around you and share it again with your neighbours.",
   },
-  appearance: {
-    title: "Appearance",
-    style: "Style",
-    theme: "Theme",
-    system: "System",
-    light: "Light",
-    dark: "Dark",
-    skinVoisini: "Voisini",
-    skinKlasik: "Classic",
-    skinLuks: "Luxe",
-    skinCesur: "Bold",
-  },
   nav: {
     discover: "Discover",
     addListing: "Post a listing",

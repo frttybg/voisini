@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/Button";
 import { Avatar } from "@/components/ui/Primitives";
 import { Logo } from "./Logo";
 import { LocaleSwitcher } from "./LocaleSwitcher";
-import { AppearanceMenu } from "./AppearanceMenu";
+import { ThemeToggle } from "./ThemeToggle";
 
 export type NavProfile = {
   id: string;
@@ -86,7 +86,7 @@ export function Navbar({
           <div className="hidden sm:block">
             <LocaleSwitcher />
           </div>
-          <AppearanceMenu allowSkins={profile?.role === "admin"} />
+          <ThemeToggle />
 
           {profile ? (
             <>

@@ -6,18 +6,6 @@ const ar: Dictionary = {
     description:
       "سوق الحي المحلي. اكتشف ما يتداوله جيرانك من حولك وأعد مشاركته معهم.",
   },
-  appearance: {
-    title: "المظهر",
-    style: "الطراز",
-    theme: "السمة",
-    system: "النظام",
-    light: "فاتح",
-    dark: "داكن",
-    skinVoisini: "Voisini",
-    skinKlasik: "كلاسيكي",
-    skinLuks: "فاخر",
-    skinCesur: "جريء",
-  },
   nav: {
     discover: "اكتشف",
     addListing: "أضف إعلانًا",

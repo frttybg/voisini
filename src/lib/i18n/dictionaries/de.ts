@@ -6,18 +6,6 @@ const de: Dictionary = {
     description:
       "Der lokale Community-Marktplatz. Entdecke, was in deiner Nähe im Umlauf ist, und teile es mit deinen Nachbarn.",
   },
-  appearance: {
-    title: "Darstellung",
-    style: "Stil",
-    theme: "Thema",
-    system: "System",
-    light: "Hell",
-    dark: "Dunkel",
-    skinVoisini: "Voisini",
-    skinKlasik: "Klassisch",
-    skinLuks: "Luxus",
-    skinCesur: "Mutig",
-  },
   nav: {
     discover: "Entdecken",
     addListing: "Anzeige aufgeben",
