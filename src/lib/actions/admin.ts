@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { userClient } from "@/lib/supabase/server";
 import { stripHtml } from "@/lib/validation";
+import type { AdminDispute } from "@/lib/supabase/types";
 import { fail, succeed, type ActionState } from "./shared";
 
 async function requireAdmin() {
@@ -122,6 +123,37 @@ export async function setVerificationAction(
     p_target_type: "user",
     p_target_id: targetUserId,
   });
+
+  revalidatePath("/", "layout");
+  return succeed("saved");
+}
+
+/* --------------------------------------------------------- Anlaşmazlık */
+
+export async function fetchDisputes(): Promise<AdminDispute[]> {
+  const admin = await requireAdmin();
+  if (!admin) return [];
+  const { data, error } = await admin.client.rpc<AdminDispute[]>("admin_disputes", {
+    p_limit: 100,
+  });
+  if (error || !Array.isArray(data)) return [];
+  return data;
+}
+
+export async function resolveDisputeAction(
+  disputeId: string,
+  status: "under_review" | "resolved" | "rejected",
+  resolution: string,
+): Promise<ActionState> {
+  const admin = await requireAdmin();
+  if (!admin) return fail("forbidden");
+
+  const { error } = await admin.client.rpc("resolve_dispute", {
+    p_dispute_id: disputeId,
+    p_status: status,
+    p_resolution: stripHtml(resolution).slice(0, 2000) || null,
+  });
+  if (error) return fail(error.message);
 
   revalidatePath("/", "layout");
   return succeed("saved");

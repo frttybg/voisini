@@ -10,7 +10,7 @@ import { Icon, type IconName } from "@/components/ui/Icon";
 import { Button } from "@/components/ui/Button";
 import { Avatar, Badge, EmptyState } from "@/components/ui/Primitives";
 import { useToast } from "@/components/ui/Overlay";
-import { RatingModal } from "./Modals";
+import { DisputeModal, RatingModal } from "./Modals";
 import {
   cancelDealAction,
   completeDealAction,
@@ -24,6 +24,7 @@ import type {
   TransactionStatus,
   SwapOfferStatus,
 } from "@/lib/supabase/types";
+import type { DisputeSummary } from "@/lib/supabase/types";
 
 export function DealsPanel({
   deals,
@@ -31,17 +32,20 @@ export function DealsPanel({
   images,
   offerImages,
   paymentResult,
+  disputes,
 }: {
   deals: DealRow[];
   offers: SwapOfferRow[];
   images: Record<string, string | null>;
   offerImages: Record<string, string | null>;
   paymentResult?: string | null;
+  disputes: Record<string, DisputeSummary>;
 }) {
   const { t } = useI18n();
   const { toast } = useToast();
   const [tab, setTab] = useState<"deals" | "offers">("deals");
   const [rating, setRating] = useState<DealRow | null>(null);
+  const [dispute, setDispute] = useState<DealRow | null>(null);
 
   useEffect(() => {
     if (paymentResult === "success") toast(t.payments.success, "success");
@@ -75,6 +79,8 @@ export function DealsPanel({
                 deal={deal}
                 imageUrl={images[deal.id] ?? null}
                 onRate={() => setRating(deal)}
+                onDispute={() => setDispute(deal)}
+                dispute={disputes[deal.id] ?? null}
               />
             ))}
           </ul>
@@ -102,6 +108,10 @@ export function DealsPanel({
           transactionId={rating.id}
           counterpartName={rating.counterpart_name}
         />
+      ) : null}
+
+      {dispute ? (
+        <DisputeModal open onClose={() => setDispute(null)} transactionId={dispute.id} />
       ) : null}
     </div>
   );
@@ -162,10 +172,14 @@ function DealCard({
   deal,
   imageUrl,
   onRate,
+  onDispute,
+  dispute,
 }: {
   deal: DealRow;
   imageUrl: string | null;
   onRate: () => void;
+  onDispute: () => void;
+  dispute: DisputeSummary | null;
 }) {
   const { t, locale } = useI18n();
   const { toast } = useToast();
@@ -385,7 +399,40 @@ function DealCard({
             {t.deal.cancel}
           </Button>
         ) : null}
+
+        {!dispute && deal.status !== "cancelled" && deal.status !== "declined" ? (
+          <Button size="sm" variant="ghost" icon="flag" onClick={onDispute}>
+            {t.dispute.open}
+          </Button>
+        ) : null}
       </div>
+
+      {dispute ? (
+        <div
+          className="flex flex-col gap-1 rounded-[var(--radius-md)] px-3.5 py-3 text-[0.8125rem]"
+          style={{
+            background:
+              dispute.status === "resolved"
+                ? "color-mix(in oklab, var(--success) 10%, transparent)"
+                : "color-mix(in oklab, var(--warning) 12%, transparent)",
+          }}
+        >
+          <span className="flex items-center gap-1.5 font-semibold text-[var(--ink)]">
+            <Icon name="flag" size={13} />
+            {dispute.status === "open"
+              ? t.dispute.statusOpen
+              : dispute.status === "under_review"
+                ? t.dispute.statusReview
+                : dispute.status === "resolved"
+                  ? t.dispute.statusResolved
+                  : t.dispute.statusRejected}
+          </span>
+          <span className="text-[var(--ink-soft)]">{dispute.reason}</span>
+          {dispute.resolution ? (
+            <span className="text-[var(--ink-muted)]">{dispute.resolution}</span>
+          ) : null}
+        </div>
+      ) : null}
 
       {deal.deposit_cents && deal.deposit_status !== "released" ? (
         <p className="flex items-start gap-1.5 text-[0.75rem] text-[var(--ink-muted)]">

@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { isLocale, type Locale } from "@/lib/i18n";
 import { getCurrentProfile } from "@/lib/supabase/server";
-import { fetchDeals, fetchSwapOffers } from "@/lib/actions/transactions";
+import { fetchDeals, fetchMyDisputes, fetchSwapOffers } from "@/lib/actions/transactions";
 import { imageUrl } from "@/lib/data/listings";
 import { DealsPanel } from "@/components/deals/DealsPanel";
 
@@ -22,7 +22,11 @@ export default async function DealsPage({
   const profile = await getCurrentProfile();
   if (!profile) redirect(`/${locale}/login?next=/${locale}/deals`);
 
-  const [deals, offers] = await Promise.all([fetchDeals(), fetchSwapOffers()]);
+  const [deals, offers, disputes] = await Promise.all([
+    fetchDeals(),
+    fetchSwapOffers(),
+    fetchMyDisputes(),
+  ]);
 
   const images = Object.fromEntries(deals.map((d) => [d.id, imageUrl(d.image_path)]));
   const offerImages = Object.fromEntries(
@@ -36,6 +40,7 @@ export default async function DealsPage({
       images={images}
       offerImages={offerImages}
       paymentResult={paymentResult ?? null}
+      disputes={disputes}
     />
   );
 }

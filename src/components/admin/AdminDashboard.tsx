@@ -7,8 +7,8 @@ import { Icon, type IconName } from "@/components/ui/Icon";
 import { Button } from "@/components/ui/Button";
 import { Badge, EmptyState } from "@/components/ui/Primitives";
 import { useToast } from "@/components/ui/Overlay";
-import { removeListingAction, resolveReportAction } from "@/lib/actions/admin";
-import type { AdminStats } from "@/lib/supabase/types";
+import { removeListingAction, resolveDisputeAction, resolveReportAction } from "@/lib/actions/admin";
+import type { AdminDispute, AdminStats } from "@/lib/supabase/types";
 
 type ReportRow = {
   id: string;
@@ -24,11 +24,13 @@ type ReportRow = {
 export function AdminDashboard({
   stats,
   reports,
+  disputes,
   title,
   role,
 }: {
   stats: AdminStats | null;
   reports: ReportRow[];
+  disputes: AdminDispute[];
   title: string;
   role: string;
 }) {
@@ -36,6 +38,25 @@ export function AdminDashboard({
   const { toast } = useToast();
   const [pending, startTransition] = useTransition();
   const [handled, setHandled] = useState<Set<string>>(new Set());
+  const [closedDisputes, setClosedDisputes] = useState<Set<string>>(new Set());
+  const [notes, setNotes] = useState<Record<string, string>>({});
+
+  function decide(
+    disputeId: string,
+    status: "under_review" | "resolved" | "rejected",
+  ) {
+    startTransition(async () => {
+      const result = await resolveDisputeAction(disputeId, status, notes[disputeId] ?? "");
+      if (!result.ok) {
+        toast(t.common.error, "error");
+        return;
+      }
+      if (status !== "under_review") {
+        setClosedDisputes((prev) => new Set(prev).add(disputeId));
+      }
+      toast(t.common.saved, "success");
+    });
+  }
 
   function resolve(reportId: string, status: "actioned" | "dismissed", targetId?: string) {
     startTransition(async () => {
@@ -131,6 +152,87 @@ export function AdminDashboard({
       ) : (
         <p className="mb-8 text-sm text-[var(--ink-muted)]">{t.errors.notConfigured}</p>
       )}
+
+      <section className="mb-10">
+        <h2 className="mb-4 text-[0.75rem] font-bold uppercase tracking-[0.1em] text-[var(--ink-muted)]">
+          {t.dispute.adminTitle}
+        </h2>
+
+        {disputes.filter((d) => !closedDisputes.has(d.id)).length ? (
+          <ul className="flex flex-col gap-3">
+            {disputes
+              .filter((d) => !closedDisputes.has(d.id))
+              .map((dispute) => (
+                <li
+                  key={dispute.id}
+                  className="flex flex-col gap-3 rounded-[var(--radius-lg)] border border-[var(--line)] bg-[var(--surface-raised)] p-4"
+                >
+                  <div className="flex flex-wrap items-center gap-2">
+                    <Badge tone={dispute.status === "open" ? "danger" : "warning"} size="sm" icon="flag">
+                      {dispute.status === "open" ? t.dispute.statusOpen : t.dispute.statusReview}
+                    </Badge>
+                    <span className="text-sm font-bold text-[var(--ink)]">
+                      {dispute.listing_title ?? "—"}
+                    </span>
+                    <span className="text-[0.75rem] text-[var(--ink-muted)]">
+                      {formatRelativeTime(dispute.created_at, locale)} · {dispute.opened_by_name ?? "—"}
+                    </span>
+                  </div>
+
+                  <p className="text-[0.875rem] font-semibold text-[var(--ink)]">{dispute.reason}</p>
+                  {dispute.details ? (
+                    <p className="whitespace-pre-line text-[0.8125rem] text-[var(--ink-soft)]">
+                      {dispute.details}
+                    </p>
+                  ) : null}
+
+                  <p className="text-[0.75rem] text-[var(--ink-muted)]">
+                    {dispute.buyer_name ?? "—"} ↔ {dispute.seller_name ?? "—"}
+                  </p>
+
+                  <textarea
+                    value={notes[dispute.id] ?? ""}
+                    onChange={(event) =>
+                      setNotes((prev) => ({ ...prev, [dispute.id]: event.target.value }))
+                    }
+                    rows={2}
+                    maxLength={2000}
+                    placeholder={t.dispute.adminResolution}
+                    className="w-full rounded-[var(--radius-md)] border border-[var(--line)] bg-[var(--surface)] px-3 py-2 text-[0.875rem] text-[var(--ink)]"
+                  />
+
+                  <div className="flex flex-wrap gap-2">
+                    {dispute.status === "open" ? (
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        disabled={pending}
+                        onClick={() => decide(dispute.id, "under_review")}
+                      >
+                        {t.dispute.markReview}
+                      </Button>
+                    ) : null}
+                    <Button size="sm" disabled={pending} onClick={() => decide(dispute.id, "resolved")}>
+                      {t.dispute.markResolved}
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      disabled={pending}
+                      onClick={() => decide(dispute.id, "rejected")}
+                    >
+                      {t.dispute.markRejected}
+                    </Button>
+                  </div>
+                </li>
+              ))}
+          </ul>
+        ) : (
+          <p className="rounded-[var(--radius-lg)] border border-[var(--line)] px-4 py-6 text-center text-sm text-[var(--ink-muted)]">
+            {t.dispute.adminEmpty}
+          </p>
+        )}
+      </section>
 
       <section>
         <h2 className="mb-4 text-[0.75rem] font-bold uppercase tracking-[0.1em] text-[var(--ink-muted)]">

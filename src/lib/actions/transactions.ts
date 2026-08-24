@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { userClient } from "@/lib/supabase/server";
 import { stripHtml } from "@/lib/validation";
-import type { DealRow, RatingRow, SwapOfferRow } from "@/lib/supabase/types";
+import type { DealRow, DisputeSummary, RatingRow, SwapOfferRow } from "@/lib/supabase/types";
 import { releaseDepositForTransaction } from "./payments";
 import { fail, rateLimit, succeed, type ActionState } from "./shared";
 import { after } from "next/server";
@@ -199,4 +199,39 @@ export async function fetchUserRatings(targetUserId: string): Promise<RatingRow[
     p_limit: 20,
   });
   return data ?? [];
+}
+
+/* --------------------------------------------------------- Anlaşmazlık */
+
+export async function openDisputeAction(
+  _prev: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  const { client, userId } = await userClient();
+  if (!userId) return fail("forbidden");
+  if (!(await rateLimit("dispute", 5, 86400, userId))) return fail("rateLimited");
+
+  const transactionId = String(formData.get("transactionId") ?? "");
+  const reason = stripHtml(String(formData.get("reason") ?? "")).slice(0, 200).trim();
+  const details = stripHtml(String(formData.get("details") ?? "")).slice(0, 2000).trim();
+  if (!transactionId || !reason) return fail("error");
+
+  const { error } = await client.rpc("open_dispute", {
+    p_transaction_id: transactionId,
+    p_reason: reason,
+    p_details: details || null,
+  });
+  if (error) return fail(error.message);
+
+  revalidatePath("/", "layout");
+  return succeed("saved");
+}
+
+/** İşlem kimliğine göre kullanıcının anlaşmazlık kayıtları. */
+export async function fetchMyDisputes(): Promise<Record<string, DisputeSummary>> {
+  const { client, userId } = await userClient();
+  if (!userId) return {};
+  const { data, error } = await client.rpc<Record<string, DisputeSummary>>("my_disputes");
+  if (error || !data) return {};
+  return data;
 }

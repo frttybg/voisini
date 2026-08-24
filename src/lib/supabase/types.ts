@@ -252,3 +252,32 @@ export type RatingRow = {
 };
 
 export type UnreadCounts = { notifications: number; messages: number };
+
+/** Kullanıcının kendi işlemindeki anlaşmazlık özeti. */
+export type DisputeSummary = {
+  id: string;
+  status: "open" | "under_review" | "resolved" | "rejected";
+  reason: string;
+  resolution: string | null;
+  opened_by_me: boolean;
+};
+
+/** Yönetim panelindeki anlaşmazlık satırı. */
+export type AdminDispute = {
+  id: string;
+  status: "open" | "under_review" | "resolved" | "rejected";
+  reason: string;
+  details: string | null;
+  resolution: string | null;
+  created_at: string;
+  transaction_id: string;
+  kind: string;
+  transaction_status: string;
+  amount_cents: number | null;
+  currency: string | null;
+  listing_title: string | null;
+  listing_slug: string | null;
+  opened_by_name: string | null;
+  buyer_name: string | null;
+  seller_name: string | null;
+};

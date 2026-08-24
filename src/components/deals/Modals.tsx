@@ -13,6 +13,7 @@ import {
   requestDealAction,
   submitRatingAction,
 } from "@/lib/actions/transactions";
+import { openDisputeAction } from "@/lib/actions/transactions";
 import { idleState } from "@/lib/actions/state";
 import { useActionSuccess } from "@/lib/useActionSuccess";
 import type { ListingType } from "@/lib/supabase/types";
@@ -235,6 +236,69 @@ export function RatingModal({
 
         <Button type="submit" size="lg" full loading={pending}>
           {t.rating.submit}
+        </Button>
+      </form>
+    </Modal>
+  );
+}
+
+/* ------------------------------------------------------- Sorun bildirme */
+
+export function DisputeModal({
+  open,
+  onClose,
+  transactionId,
+}: {
+  open: boolean;
+  onClose: () => void;
+  transactionId: string;
+}) {
+  const { t } = useI18n();
+  const { toast } = useToast();
+  const [state, formAction, pending] = useActionState(openDisputeAction, idleState);
+
+  useActionSuccess(state, () => {
+    toast(t.dispute.sent, "success");
+    onClose();
+  });
+
+  return (
+    <Modal open={open} onClose={onClose} title={t.dispute.title}>
+      {state.message && !state.ok ? (
+        <p className="mb-4 rounded-[var(--radius-md)] bg-[color-mix(in_oklab,var(--danger)_10%,transparent)] px-3.5 py-3 text-[0.8125rem] text-[var(--danger)]">
+          {state.message === "rateLimited" ? t.errors.rateLimited : t.common.error}
+        </p>
+      ) : null}
+
+      <form action={formAction} className="flex flex-col gap-4">
+        <input type="hidden" name="transactionId" value={transactionId} />
+
+        <p className="text-sm text-[var(--ink-muted)]">{t.dispute.intro}</p>
+
+        <div>
+          <Label htmlFor="reason" required>{t.dispute.reason}</Label>
+          <Input
+            id="reason"
+            name="reason"
+            maxLength={200}
+            required
+            placeholder={t.dispute.reasonPlaceholder}
+          />
+        </div>
+
+        <div>
+          <Label htmlFor="details">{t.dispute.details}</Label>
+          <Textarea
+            id="details"
+            name="details"
+            rows={5}
+            maxLength={2000}
+            placeholder={t.dispute.detailsPlaceholder}
+          />
+        </div>
+
+        <Button type="submit" size="lg" full loading={pending}>
+          {t.dispute.send}
         </Button>
       </form>
     </Modal>
