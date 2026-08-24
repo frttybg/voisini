@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useI18n } from "@/lib/i18n/provider";
 import { Icon } from "@/components/ui/Icon";
@@ -70,6 +71,7 @@ export function MapView({
   images: Record<string, string | null>;
 }) {
   const { t, locale } = useI18n();
+  const router = useRouter();
   const boxRef = useRef<HTMLDivElement>(null);
   const [size, setSize] = useState({ w: 0, h: 0 });
   const [view, setView] = useState<{ center: Point; zoom: number }>({
@@ -78,7 +80,8 @@ export function MapView({
   });
   const [selected, setSelected] = useState<string | null>(null);
   const fitted = useRef(false);
-  const drag = useRef<{ x: number; y: number } | null>(null);
+  const drag = useRef<{ x: number; y: number; moved: boolean; id: number } | null>(null);
+  const [dragging, setDragging] = useState(false);
 
   const placed = useMemo(
     () => listings.filter((l) => points[l.id]).map((l) => ({ listing: l, point: points[l.id] })),
@@ -126,19 +129,39 @@ export function MapView({
     [size],
   );
 
+  /**
+   * Kaydırma, ancak parmak/fare gerçekten birkaç piksel hareket edince
+   * başlar. Aksi hâlde işaretçi yakalama, işaret ve kart tıklamalarını
+   * yutar — basıyorsun, hiçbir şey olmuyor.
+   */
+  const DRAG_THRESHOLD = 5;
+
   function onPointerDown(event: React.PointerEvent) {
     if (event.button !== 0 && event.pointerType === "mouse") return;
-    drag.current = { x: event.clientX, y: event.clientY };
-    (event.currentTarget as HTMLElement).setPointerCapture(event.pointerId);
+    // Düğme ya da bağlantıya basıldıysa kaydırmaya hiç başlama
+    if ((event.target as HTMLElement).closest("button, a")) return;
+    drag.current = { x: event.clientX, y: event.clientY, moved: false, id: event.pointerId };
   }
 
   function onPointerMove(event: React.PointerEvent) {
     const start = drag.current;
     if (!start) return;
+
     const dx = event.clientX - start.x;
     const dy = event.clientY - start.y;
-    if (!dx && !dy) return;
-    drag.current = { x: event.clientX, y: event.clientY };
+
+    if (!start.moved) {
+      if (Math.abs(dx) < DRAG_THRESHOLD && Math.abs(dy) < DRAG_THRESHOLD) return;
+      start.moved = true;
+      setDragging(true);
+      try {
+        (event.currentTarget as HTMLElement).setPointerCapture(event.pointerId);
+      } catch {
+        /* yoksay */
+      }
+    }
+
+    drag.current = { ...start, x: event.clientX, y: event.clientY };
 
     setView((prev) => {
       const c = project(prev.center.lat, prev.center.lng, prev.zoom);
@@ -147,11 +170,15 @@ export function MapView({
   }
 
   function onPointerUp(event: React.PointerEvent) {
+    const start = drag.current;
     drag.current = null;
-    try {
-      (event.currentTarget as HTMLElement).releasePointerCapture(event.pointerId);
-    } catch {
-      /* yoksay */
+    setDragging(false);
+    if (start?.moved) {
+      try {
+        (event.currentTarget as HTMLElement).releasePointerCapture(event.pointerId);
+      } catch {
+        /* yoksay */
+      }
     }
   }
 
@@ -215,7 +242,7 @@ export function MapView({
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
       onPointerCancel={onPointerUp}
-      style={{ cursor: drag.current ? "grabbing" : "grab" }}
+      style={{ cursor: dragging ? "grabbing" : "grab" }}
     >
       {tiles.map((tile) => (
         // Harita karoları uzak sunucudan gelir; next/image burada uygun değil.
@@ -245,7 +272,9 @@ export function MapView({
             type="button"
             onClick={(event) => {
               event.stopPropagation();
-              setSelected(isActive ? null : listing.id);
+              // İlk dokunuş kartı açar, aynı işarete tekrar basmak ilana götürür.
+              if (isActive) router.push(`/${locale}/listings/${listing.slug}`);
+              else setSelected(listing.id);
             }}
             aria-label={listing.title}
             className="absolute -translate-x-1/2 -translate-y-full rounded-full px-2.5 py-1 text-[0.72rem] font-bold whitespace-nowrap shadow-[var(--shadow-card)] transition-transform hover:scale-105"
@@ -284,8 +313,9 @@ export function MapView({
               <span className="text-sm font-semibold text-[var(--brand-600)]">
                 {priceLabel(active.listing)}
               </span>
-              <span className="text-[0.75rem] text-[var(--ink-muted)]">
+              <span className="flex items-center gap-1 text-[0.75rem] text-[var(--ink-muted)]">
                 {formatDistance(active.listing.distance_m, locale)}
+                <Icon name="chevronRight" size={12} className="rtl:rotate-180" />
               </span>
             </span>
           </Link>
