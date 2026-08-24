@@ -4,6 +4,18 @@ const fr = {
     description:
       "Le marketplace local et communautaire. Découvre ce qui circule autour de toi et repartage-le avec tes voisins.",
   },
+  appearance: {
+    title: "Apparence",
+    style: "Style",
+    theme: "Thème",
+    system: "Système",
+    light: "Clair",
+    dark: "Sombre",
+    skinVoisini: "Voisini",
+    skinKlasik: "Classique",
+    skinLuks: "Luxe",
+    skinCesur: "Audacieux",
+  },
   nav: {
     discover: "Découvrir",
     addListing: "Déposer une annonce",
@@ -238,6 +250,12 @@ const fr = {
     language: "Langue",
     newBadge: "Nouveau",
   },
+  legal: {
+    updated: "Dernière mise à jour",
+    fallbackNotice:
+      "Cette page n'est pas encore traduite dans votre langue. La version française ci-dessous fait foi.",
+    backHome: "Retour à l'accueil",
+  },
   footer: {
     tagline: "Le marketplace de quartier. Vends, donne, prête, loue, échange.",
     product: "Produit",
@@ -250,6 +268,7 @@ const fr = {
     terms: "Conditions d'utilisation",
     privacy: "Confidentialité",
     cookies: "Cookies",
+    mentions: "Mentions légales",
     rights: "Tous droits réservés.",
   },
   errors: {

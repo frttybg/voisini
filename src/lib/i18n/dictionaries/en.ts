@@ -6,6 +6,18 @@ const en: Dictionary = {
     description:
       "The local, community-run marketplace. Discover what's circulating around you and share it again with your neighbours.",
   },
+  appearance: {
+    title: "Appearance",
+    style: "Style",
+    theme: "Theme",
+    system: "System",
+    light: "Light",
+    dark: "Dark",
+    skinVoisini: "Voisini",
+    skinKlasik: "Classic",
+    skinLuks: "Luxe",
+    skinCesur: "Bold",
+  },
   nav: {
     discover: "Discover",
     addListing: "Post a listing",
@@ -238,6 +250,12 @@ const en: Dictionary = {
     language: "Language",
     newBadge: "New",
   },
+  legal: {
+    updated: "Last updated",
+    fallbackNotice:
+      "This page is not translated into your language yet. The French version below is the binding one.",
+    backHome: "Back to home",
+  },
   footer: {
     tagline: "The neighbourhood marketplace. Sell, give, lend, rent, swap.",
     product: "Product",
@@ -250,6 +268,7 @@ const en: Dictionary = {
     terms: "Terms of use",
     privacy: "Privacy",
     cookies: "Cookies",
+    mentions: "Legal notice",
     rights: "All rights reserved.",
   },
   errors: {

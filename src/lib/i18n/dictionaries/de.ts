@@ -6,6 +6,18 @@ const de: Dictionary = {
     description:
       "Der lokale Community-Marktplatz. Entdecke, was in deiner Nähe im Umlauf ist, und teile es mit deinen Nachbarn.",
   },
+  appearance: {
+    title: "Darstellung",
+    style: "Stil",
+    theme: "Thema",
+    system: "System",
+    light: "Hell",
+    dark: "Dunkel",
+    skinVoisini: "Voisini",
+    skinKlasik: "Klassisch",
+    skinLuks: "Luxus",
+    skinCesur: "Mutig",
+  },
   nav: {
     discover: "Entdecken",
     addListing: "Anzeige aufgeben",
@@ -239,6 +251,12 @@ const de: Dictionary = {
     language: "Sprache",
     newBadge: "Neu",
   },
+  legal: {
+    updated: "Zuletzt aktualisiert",
+    fallbackNotice:
+      "Diese Seite ist noch nicht in Ihre Sprache übersetzt. Maßgeblich ist die französische Fassung unten.",
+    backHome: "Zurück zur Startseite",
+  },
   footer: {
     tagline: "Der Marktplatz im Viertel. Verkaufen, verschenken, verleihen, vermieten, tauschen.",
     product: "Produkt",
@@ -251,6 +269,7 @@ const de: Dictionary = {
     terms: "Nutzungsbedingungen",
     privacy: "Datenschutz",
     cookies: "Cookies",
+    mentions: "Impressum",
     rights: "Alle Rechte vorbehalten.",
   },
   errors: {

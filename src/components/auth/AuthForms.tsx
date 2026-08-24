@@ -250,6 +250,14 @@ export function RegisterForm() {
 
         <p className="text-center text-[0.75rem] leading-relaxed text-[var(--ink-muted)]">
           {t.auth.terms}
+          <br />
+          <Link href={`/${locale}/legal/terms`} className="underline hover:text-[var(--brand-600)]">
+            {t.footer.terms}
+          </Link>
+          {" · "}
+          <Link href={`/${locale}/legal/privacy`} className="underline hover:text-[var(--brand-600)]">
+            {t.footer.privacy}
+          </Link>
         </p>
       </form>
     </AuthShell>

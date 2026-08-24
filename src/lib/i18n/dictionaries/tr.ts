@@ -6,6 +6,18 @@ const tr: Dictionary = {
     description:
       "Yerel ve topluluk odaklı marketplace. Yakınında dolaşımda olanı keşfet, komşularınla yeniden paylaş.",
   },
+  appearance: {
+    title: "Görünüm",
+    style: "Stil",
+    theme: "Tema",
+    system: "Sistem",
+    light: "Gündüz",
+    dark: "Gece",
+    skinVoisini: "Voisini",
+    skinKlasik: "Klasik",
+    skinLuks: "Lüks",
+    skinCesur: "Cesur",
+  },
   nav: {
     discover: "Keşfet",
     addListing: "İlan Ekle",
@@ -240,6 +252,12 @@ const tr: Dictionary = {
     language: "Dil",
     newBadge: "Yeni",
   },
+  legal: {
+    updated: "Son güncelleme",
+    fallbackNotice:
+      "Bu sayfa henüz sizin dilinize çevrilmedi. Aşağıdaki Fransızca sürüm geçerlidir.",
+    backHome: "Ana sayfaya dön",
+  },
   footer: {
     tagline: "Mahalle marketplace'i. Sat, ver, ödünç ver, kirala, takas et.",
     product: "Ürün",
@@ -252,6 +270,7 @@ const tr: Dictionary = {
     terms: "Kullanım koşulları",
     privacy: "Gizlilik",
     cookies: "Çerezler",
+    mentions: "Yasal bilgiler",
     rights: "Tüm hakları saklıdır.",
   },
   errors: {

@@ -30,6 +30,7 @@ export function Footer() {
     {
       title: t.footer.legal,
       links: [
+        { label: t.footer.mentions, href: href("/legal/mentions") },
         { label: t.footer.terms, href: href("/legal/terms") },
         { label: t.footer.privacy, href: href("/legal/privacy") },
         { label: t.footer.cookies, href: href("/legal/cookies") },

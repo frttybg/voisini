@@ -6,6 +6,18 @@ const es: Dictionary = {
     description:
       "El marketplace local y comunitario. Descubre lo que circula cerca de ti y vuelve a compartirlo con tus vecinos.",
   },
+  appearance: {
+    title: "Apariencia",
+    style: "Estilo",
+    theme: "Tema",
+    system: "Sistema",
+    light: "Claro",
+    dark: "Oscuro",
+    skinVoisini: "Voisini",
+    skinKlasik: "Clásico",
+    skinLuks: "Lujo",
+    skinCesur: "Audaz",
+  },
   nav: {
     discover: "Descubrir",
     addListing: "Publicar anuncio",
@@ -239,6 +251,12 @@ const es: Dictionary = {
     language: "Idioma",
     newBadge: "Nuevo",
   },
+  legal: {
+    updated: "Última actualización",
+    fallbackNotice:
+      "Esta página aún no está traducida a tu idioma. La versión francesa que aparece abajo es la que prevalece.",
+    backHome: "Volver al inicio",
+  },
   footer: {
     tagline: "El marketplace de barrio. Vende, regala, presta, alquila, intercambia.",
     product: "Producto",
@@ -251,6 +269,7 @@ const es: Dictionary = {
     terms: "Condiciones de uso",
     privacy: "Privacidad",
     cookies: "Cookies",
+    mentions: "Aviso legal",
     rights: "Todos los derechos reservados.",
   },
   errors: {

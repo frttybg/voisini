@@ -6,6 +6,18 @@ const ar: Dictionary = {
     description:
       "سوق الحي المحلي. اكتشف ما يتداوله جيرانك من حولك وأعد مشاركته معهم.",
   },
+  appearance: {
+    title: "المظهر",
+    style: "الطراز",
+    theme: "السمة",
+    system: "النظام",
+    light: "فاتح",
+    dark: "داكن",
+    skinVoisini: "Voisini",
+    skinKlasik: "كلاسيكي",
+    skinLuks: "فاخر",
+    skinCesur: "جريء",
+  },
   nav: {
     discover: "اكتشف",
     addListing: "أضف إعلانًا",
@@ -235,6 +247,12 @@ const ar: Dictionary = {
     language: "اللغة",
     newBadge: "جديد",
   },
+  legal: {
+    updated: "آخر تحديث",
+    fallbackNotice:
+      "لم تُترجم هذه الصفحة إلى لغتك بعد. النسخة الفرنسية أدناه هي النسخة المعتمدة.",
+    backHome: "العودة إلى الصفحة الرئيسية",
+  },
   footer: {
     tagline: "سوق الحي. بِع، اهدِ، أعِر، أجّر، بادِل.",
     product: "المنتج",
@@ -247,6 +265,7 @@ const ar: Dictionary = {
     terms: "شروط الاستخدام",
     privacy: "الخصوصية",
     cookies: "ملفات تعريف الارتباط",
+    mentions: "معلومات قانونية",
     rights: "جميع الحقوق محفوظة.",
   },
   errors: {

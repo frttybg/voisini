@@ -40,6 +40,7 @@ const paths: Record<string, ReactNode> = {
   chevronRight: <path d="m9 6 6 6-6 6" />,
   chevronLeft: <path d="m15 6-6 6 6 6" />,
   arrowRight: <path d="M4 12h15m-6-6 6 6-6 6" />,
+  arrowLeft: <path d="M20 12H5m6 6-6-6 6-6" />,
   arrowUpRight: <path d="M7 17 17 7m0 0h-8m8 0v8" />,
   check: <path d="m5 12.5 4.5 4.5L19 7.5" />,
   star: <path d="m12 3.6 2.6 5.4 5.9.8-4.3 4.1 1 5.9-5.2-2.8-5.2 2.8 1-5.9-4.3-4.1 5.9-.8Z" />,
