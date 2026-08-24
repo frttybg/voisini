@@ -1,16 +1,21 @@
 "use client";
 
-import { useEffect, useRef, useState, useTransition } from "react";
+import { useCallback, useEffect, useRef, useState, useTransition } from "react";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n/provider";
 import { Icon } from "@/components/ui/Icon";
 import { useToast } from "@/components/ui/Overlay";
 import { fetchMessagesAction, sendMessageAction } from "@/lib/actions/messages";
+import { subscribeToInserts } from "@/lib/realtime/channel";
 import type { Message } from "@/lib/supabase/types";
 
 /**
- * Sohbet penceresi. Yeni mesajlar kısa aralıklı yoklama ile gelir;
- * gönderim iyimser (optimistic) olarak anında ekranda görünür.
+ * Sohbet penceresi.
+ *
+ * Yeni mesajlar WebSocket üzerinden anında düşer. Bağlantı kurulamazsa
+ * (ağ engeli, eski tarayıcı) otomatik olarak yoklamaya geri dönülür;
+ * bağlantı varken de 20 saniyede bir emniyet yoklaması yapılır, böylece
+ * kopan bir kare gözden kaçmaz.
  */
 export function ChatThread({
   conversationId,
@@ -28,28 +33,86 @@ export function ChatThread({
   const [pending, startTransition] = useTransition();
   const endRef = useRef<HTMLDivElement>(null);
   const lastAt = useRef<string | undefined>(initialMessages.at(-1)?.created_at);
+  const lastPull = useRef(0);
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ block: "end" });
   }, [messages.length]);
 
-  useEffect(() => {
-    let active = true;
-    const timer = setInterval(async () => {
-      if (document.hidden) return;
-      const fresh = await fetchMessagesAction(conversationId, lastAt.current);
-      if (!active || !fresh.length) return;
-      lastAt.current = fresh.at(-1)?.created_at ?? lastAt.current;
+  const liveRef = useRef(false);
+
+  /** Gelen mesajı listeye ekler; aynı mesaj iki kez eklenmez. */
+  const absorb = useCallback(
+    (incoming: Message[]) => {
+      if (!incoming.length) return;
       setMessages((prev) => {
         const ids = new Set(prev.map((m) => m.id));
-        return [...prev, ...fresh.filter((m) => !ids.has(m.id))];
+        const fresh = incoming.filter((m) => !ids.has(m.id));
+        if (!fresh.length) return prev;
+
+        // Kendi gönderdiğimiz mesaj sunucudan dönerse, geçici kopyayı at.
+        const mineBodies = new Set(
+          fresh.filter((m) => m.sender_id === currentUserId).map((m) => m.body),
+        );
+        const kept = prev.filter(
+          (m) => !(m.id.startsWith("temp-") && mineBodies.has(m.body)),
+        );
+
+        const next = [...kept, ...fresh];
+        lastAt.current = next.at(-1)?.created_at ?? lastAt.current;
+        return next;
       });
+    },
+    [currentUserId],
+  );
+
+  const pull = useCallback(async () => {
+    const fresh = await fetchMessagesAction(conversationId, lastAt.current);
+    absorb(fresh);
+  }, [conversationId, absorb]);
+
+  // 1. Anlık kanal
+  useEffect(() => {
+    const unsubscribe = subscribeToInserts<Message>({
+      table: "messages",
+      filter: `conversation_id=eq.${conversationId}`,
+      onInsert: (row) => absorb([row]),
+      onStatus: (connected) => {
+        liveRef.current = connected;
+        // Bağlantı (yeniden) kurulduğunda arada kaçan varsa toparla
+        if (connected) void pull();
+      },
+    });
+    return unsubscribe;
+  }, [conversationId, absorb, pull]);
+
+  // 2. Yedek yoklama — bağlantı yoksa sık, varsa seyrek
+  useEffect(() => {
+    let active = true;
+    const timer = setInterval(() => {
+      if (!active || document.hidden) return;
+      if (liveRef.current && Date.now() - lastPull.current < 20_000) return;
+      lastPull.current = Date.now();
+      void pull();
     }, 4000);
     return () => {
       active = false;
       clearInterval(timer);
     };
-  }, [conversationId]);
+  }, [pull]);
+
+  // 3. Sekmeye geri dönünce anında tazele
+  useEffect(() => {
+    function onVisible() {
+      if (!document.hidden) void pull();
+    }
+    document.addEventListener("visibilitychange", onVisible);
+    window.addEventListener("focus", onVisible);
+    return () => {
+      document.removeEventListener("visibilitychange", onVisible);
+      window.removeEventListener("focus", onVisible);
+    };
+  }, [pull]);
 
   function send(e: React.FormEvent) {
     e.preventDefault();
