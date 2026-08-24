@@ -4,8 +4,14 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getDictionary, isLocale, type Locale } from "@/lib/i18n";
 import { anonClient, getCurrentProfile, userClient } from "@/lib/supabase/server";
-import { imageUrl, searchListings, getFavoriteIds } from "@/lib/data/listings";
-import { formatDate, formatPrice } from "@/lib/utils";
+import {
+  getFavoriteIds,
+  getListingPoints,
+  getViewerLocation,
+  imageUrl,
+  searchListings,
+} from "@/lib/data/listings";
+import { formatDate, formatDistance, formatPrice } from "@/lib/utils";
 import { publicEnv } from "@/lib/env";
 import { Icon, categoryIcon } from "@/components/ui/Icon";
 import { Avatar, Badge, Rating, TypeBadge } from "@/components/ui/Primitives";
@@ -15,6 +21,21 @@ import { ListingCard } from "@/components/listings/ListingCard";
 import type { Listing, ListingImage, Profile } from "@/lib/supabase/types";
 
 export const dynamic = "force-dynamic";
+
+/** İki yaklaşık nokta arasındaki kuş uçuşu mesafe (metre). */
+function metersBetween(
+  a: { lat: number; lng: number },
+  b: { lat: number; lng: number },
+): number {
+  const R = 6371000;
+  const toRad = (deg: number) => (deg * Math.PI) / 180;
+  const dLat = toRad(b.lat - a.lat);
+  const dLng = toRad(b.lng - a.lng);
+  const h =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(toRad(a.lat)) * Math.cos(toRad(b.lat)) * Math.sin(dLng / 2) ** 2;
+  return 2 * R * Math.asin(Math.sqrt(h));
+}
 
 async function loadListing(slug: string) {
   const client = anonClient();
@@ -103,10 +124,20 @@ export default async function ListingDetailPage({
     void client.rpc("increment_listing_view", { p_listing_id: listing.id });
   }
 
-  const [{ items: similar }, favorites] = await Promise.all([
+  const [{ items: similar }, favorites, viewerLocation, points] = await Promise.all([
     searchListings({ category: categorySlug, limit: 4, sort: "recent" }),
     getFavoriteIds(),
+    getViewerLocation(),
+    getListingPoints([listing.id]),
   ]);
+
+  // Yaklaşık mesafe — yalnızca kendi konumunu kaydetmiş kullanıcıya gösterilir.
+  // İki nokta da bilerek kaydırılmış konumlardır, açık adres hiç kullanılmaz.
+  const listingPoint = points[listing.id];
+  const distanceLabel =
+    viewerLocation && listingPoint
+      ? formatDistance(metersBetween(viewerLocation, listingPoint), locale)
+      : null;
 
   // Takas teklifinde kullanıcının kendi ilanlarını seçebilmesi için
   let myListings: { id: string; title: string }[] = [];
@@ -229,7 +260,7 @@ export default async function ListingDetailPage({
               {listing.is_negotiable ? <Badge tone="brand">{t.listing.negotiable}</Badge> : null}
               {listing.city ? (
                 <Badge tone="neutral" icon="pin">
-                  {listing.city}
+                  {distanceLabel ? `${listing.city} · ${distanceLabel}` : listing.city}
                 </Badge>
               ) : null}
               <Badge tone="neutral" icon="eye">
