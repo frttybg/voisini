@@ -6,6 +6,18 @@ const tr: Dictionary = {
     description:
       "Yerel ve topluluk odaklı marketplace. Yakınında dolaşımda olanı keşfet, komşularınla yeniden paylaş.",
   },
+  appearance: {
+    title: "Görünüm",
+    style: "Stil",
+    theme: "Tema",
+    system: "Sistem",
+    light: "Gündüz",
+    dark: "Gece",
+    skinVoisini: "Voisini",
+    skinKlasik: "Klasik",
+    skinLuks: "Lüks",
+    skinCesur: "Cesur",
+  },
   nav: {
     discover: "Keşfet",
     addListing: "İlan Ekle",

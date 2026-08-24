@@ -365,3 +365,377 @@ body {
   }
   [data-reveal] { opacity: 1 !important; transform: none !important; }
 }
+
+/* =====================================================================
+   GÖRÜNÜMLER (SKIN)
+   Sitenin karakterini değiştiren token setleri. Yerleşim aynı kalır;
+   değişen şey renk, yazı tipi, köşe yuvarlaklığı ve harf aralığı.
+   <html data-skin="klasik|luks|cesur"> ile seçilir; boşsa varsayılan
+   "Voisini" görünümü geçerlidir. Her görünüm açık ve koyu temada
+   ayrı ayrı tanımlıdır.
+   ===================================================================== */
+
+.display-xl,
+.display-lg,
+.display-md,
+.display-sm {
+  font-family: var(--font-stack-display);
+}
+
+/* ------------------------------------------------------- KLASİK (açık) */
+:root[data-skin="klasik"] {
+  --font-stack: "Jost", ui-sans-serif, system-ui, "Noto Sans Arabic", Arial, sans-serif;
+  --font-stack-display: "Cormorant Garamond", ui-serif, Georgia, "Noto Naskh Arabic", serif;
+
+  --brand-50: #eef3f0;
+  --brand-100: #dce8e2;
+  --brand-200: #b6cfc4;
+  --brand-300: #83ae9c;
+  --brand-400: #4a8570;
+  --brand-500: #14533d;
+  --brand-600: #114633;
+  --brand-700: #0e3a2a;
+  --brand-800: #0b2e21;
+  --brand-900: #081f17;
+
+  --accent-400: #b2814f;
+  --accent-500: #9c6b3f;
+  --accent-600: #82562f;
+
+  --type-sell: #14533d;
+  --type-give: #9c7a22;
+  --type-lend: #3f5f86;
+  --type-rent: #5b4b7a;
+  --type-swap: #8c4a52;
+
+  --ink: #16150f;
+  --ink-soft: #4a473c;
+  --ink-muted: #8c8779;
+  --surface: #fbfaf6;
+  --surface-raised: #ffffff;
+  --surface-sunken: #f3f0e7;
+  --line: #e0dccf;
+  --line-soft: #edeae0;
+
+  --hero-glow-a: rgb(20 83 61 / 0.10);
+  --hero-glow-b: rgb(156 107 63 / 0.08);
+  --grain-opacity: 0.045;
+
+  --radius-xs: 2px;
+  --radius-sm: 3px;
+  --radius-md: 4px;
+  --radius-lg: 6px;
+  --radius-xl: 8px;
+  --radius-2xl: 10px;
+}
+
+:root[data-skin="klasik"] .display-xl { font-weight: 300; letter-spacing: -0.018em; line-height: 0.95; }
+:root[data-skin="klasik"] .display-lg { font-weight: 300; letter-spacing: -0.014em; line-height: 0.98; }
+:root[data-skin="klasik"] .display-md { font-weight: 400; letter-spacing: -0.01em; }
+:root[data-skin="klasik"] .display-sm { font-weight: 500; letter-spacing: -0.005em; }
+:root[data-skin="klasik"] .eyebrow { letter-spacing: 0.24em; font-weight: 500; }
+
+/* ------------------------------------------------------- KLASİK (koyu) */
+:root[data-skin="klasik"][data-theme="dark"] {
+  --ink: #f1eee3;
+  --ink-soft: #c3beac;
+  --ink-muted: #8e8a79;
+  --surface: #14140f;
+  --surface-raised: #1c1b15;
+  --surface-sunken: #0e0e0a;
+  --line: #2c2a22;
+  --line-soft: #23211b;
+
+  --brand-50: #0f1a15;
+  --brand-100: #14231c;
+  --brand-200: #1d3729;
+  --brand-300: #2e5a45;
+  --brand-400: #4a8468;
+  --brand-500: #6fa98f;
+  --brand-600: #93c4ae;
+  --brand-700: #b4daca;
+  --brand-800: #d2ebe0;
+  --brand-900: #e9f5ef;
+
+  --type-sell: #6fa98f;
+  --hero-glow-a: rgb(111 169 143 / 0.14);
+  --hero-glow-b: rgb(178 129 79 / 0.10);
+  --grain-opacity: 0.055;
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-skin="klasik"]:not([data-theme="light"]) {
+    --ink: #f1eee3;
+    --ink-soft: #c3beac;
+    --ink-muted: #8e8a79;
+    --surface: #14140f;
+    --surface-raised: #1c1b15;
+    --surface-sunken: #0e0e0a;
+    --line: #2c2a22;
+    --line-soft: #23211b;
+
+    --brand-50: #0f1a15;
+    --brand-100: #14231c;
+    --brand-200: #1d3729;
+    --brand-300: #2e5a45;
+    --brand-400: #4a8468;
+    --brand-500: #6fa98f;
+    --brand-600: #93c4ae;
+    --brand-700: #b4daca;
+    --brand-800: #d2ebe0;
+    --brand-900: #e9f5ef;
+
+    --type-sell: #6fa98f;
+    --hero-glow-a: rgb(111 169 143 / 0.14);
+    --hero-glow-b: rgb(178 129 79 / 0.10);
+    --grain-opacity: 0.055;
+    color-scheme: dark;
+  }
+}
+
+/* --------------------------------------------------------- LÜKS (açık) */
+:root[data-skin="luks"] {
+  --font-stack: "Manrope", ui-sans-serif, system-ui, "Noto Sans Arabic", Arial, sans-serif;
+  --font-stack-display: "Marcellus", ui-serif, Georgia, "Noto Naskh Arabic", serif;
+
+  --brand-50: #eef5f1;
+  --brand-100: #d9ebe3;
+  --brand-200: #aed5c4;
+  --brand-300: #74b69c;
+  --brand-400: #3d9673;
+  --brand-500: #1f7a58;
+  --brand-600: #196448;
+  --brand-700: #14503a;
+  --brand-800: #103f2e;
+  --brand-900: #0b2c20;
+
+  --accent-400: #bfa165;
+  --accent-500: #a8894e;
+  --accent-600: #8c703c;
+
+  --type-sell: #1f7a58;
+  --type-give: #a8894e;
+  --type-lend: #3d6f96;
+  --type-rent: #6a5a8c;
+  --type-swap: #96555f;
+
+  --ink: #14150f;
+  --ink-soft: #4b4f47;
+  --ink-muted: #868c81;
+  --surface: #f4f3ef;
+  --surface-raised: #ffffff;
+  --surface-sunken: #eae8e1;
+  --line: #e2dfd5;
+  --line-soft: #eeece4;
+
+  --hero-glow-a: rgb(31 122 88 / 0.12);
+  --hero-glow-b: rgb(168 137 78 / 0.12);
+  --grain-opacity: 0.03;
+
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-2xl: 16px;
+}
+
+:root[data-skin="luks"] .display-xl { font-weight: 400; letter-spacing: 0.004em; line-height: 1.0; }
+:root[data-skin="luks"] .display-lg { font-weight: 400; letter-spacing: 0.006em; line-height: 1.04; }
+:root[data-skin="luks"] .display-md { font-weight: 400; letter-spacing: 0.008em; }
+:root[data-skin="luks"] .display-sm { font-weight: 400; letter-spacing: 0.01em; }
+:root[data-skin="luks"] .eyebrow { letter-spacing: 0.28em; font-weight: 700; color: var(--accent-500); }
+
+/* ---------------------------------------------------------- LÜKS (koyu) */
+:root[data-skin="luks"][data-theme="dark"] {
+  --ink: #f0f1eb;
+  --ink-soft: #b9bdb2;
+  --ink-muted: #868c81;
+  --surface: #0a0c0a;
+  --surface-raised: #131714;
+  --surface-sunken: #060806;
+  --line: #232823;
+  --line-soft: #1a1e1a;
+
+  --brand-50: #0b1611;
+  --brand-100: #0f1f18;
+  --brand-200: #163126;
+  --brand-300: #235140;
+  --brand-400: #34866a;
+  --brand-500: #47c28e;
+  --brand-600: #6dd3a8;
+  --brand-700: #95e2c2;
+  --brand-800: #bcefdb;
+  --brand-900: #ddf7ec;
+
+  --accent-400: #d6c69b;
+  --accent-500: #c8b78a;
+  --accent-600: #b09d70;
+
+  --type-sell: #47c28e;
+  --hero-glow-a: rgb(71 194 142 / 0.18);
+  --hero-glow-b: rgb(200 183 138 / 0.12);
+  --grain-opacity: 0.045;
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-skin="luks"]:not([data-theme="light"]) {
+    --ink: #f0f1eb;
+    --ink-soft: #b9bdb2;
+    --ink-muted: #868c81;
+    --surface: #0a0c0a;
+    --surface-raised: #131714;
+    --surface-sunken: #060806;
+    --line: #232823;
+    --line-soft: #1a1e1a;
+
+    --brand-50: #0b1611;
+    --brand-100: #0f1f18;
+    --brand-200: #163126;
+    --brand-300: #235140;
+    --brand-400: #34866a;
+    --brand-500: #47c28e;
+    --brand-600: #6dd3a8;
+    --brand-700: #95e2c2;
+    --brand-800: #bcefdb;
+    --brand-900: #ddf7ec;
+
+    --accent-400: #d6c69b;
+    --accent-500: #c8b78a;
+    --accent-600: #b09d70;
+
+    --type-sell: #47c28e;
+    --hero-glow-a: rgb(71 194 142 / 0.18);
+    --hero-glow-b: rgb(200 183 138 / 0.12);
+    --grain-opacity: 0.045;
+    color-scheme: dark;
+  }
+}
+
+/* -------------------------------------------------------- CESUR (açık) */
+:root[data-skin="cesur"] {
+  --font-stack: "Karla", ui-sans-serif, system-ui, "Noto Sans Arabic", Arial, sans-serif;
+  --font-stack-display: "Anton", "Karla", Impact, "Noto Sans Arabic", sans-serif;
+
+  --brand-50: #e9f2ed;
+  --brand-100: #cfe4da;
+  --brand-200: #9cc7b4;
+  --brand-300: #63a68d;
+  --brand-400: #2f8163;
+  --brand-500: #0f5b3f;
+  --brand-600: #0c4b34;
+  --brand-700: #093c29;
+  --brand-800: #072f20;
+  --brand-900: #052117;
+
+  --accent-400: #f0703f;
+  --accent-500: #e4572e;
+  --accent-600: #c34321;
+
+  --type-sell: #0f5b3f;
+  --type-give: #d08a00;
+  --type-lend: #1f6f9c;
+  --type-rent: #6b4bc4;
+  --type-swap: #e4572e;
+
+  --ink: #100f0c;
+  --ink-soft: #3a382f;
+  --ink-muted: #6e6a5c;
+  --surface: #e9e5da;
+  --surface-raised: #fbfaf6;
+  --surface-sunken: #ddd8c9;
+  --line: #2a2822;
+  --line-soft: #b7b0a0;
+
+  --hero-glow-a: rgb(15 91 63 / 0.16);
+  --hero-glow-b: rgb(228 87 46 / 0.14);
+  --grain-opacity: 0.05;
+
+  --radius-xs: 0px;
+  --radius-sm: 0px;
+  --radius-md: 2px;
+  --radius-lg: 2px;
+  --radius-xl: 4px;
+  --radius-2xl: 6px;
+}
+
+:root[data-skin="cesur"] .display-xl,
+:root[data-skin="cesur"] .display-lg { text-transform: uppercase; font-weight: 400; letter-spacing: -0.012em; line-height: 0.86; }
+:root[data-skin="cesur"] .display-md { font-weight: 400; letter-spacing: -0.008em; line-height: 1.0; }
+:root[data-skin="cesur"] .display-sm { font-weight: 400; letter-spacing: -0.004em; }
+:root[data-skin="cesur"] .eyebrow { letter-spacing: 0.14em; font-weight: 700; }
+
+/* Arapça'da büyük harfe çevirmek anlamsız; kapatıyoruz. */
+:root[data-skin="cesur"][dir="rtl"] .display-xl,
+:root[data-skin="cesur"][dir="rtl"] .display-lg { text-transform: none; }
+
+/* --------------------------------------------------------- CESUR (koyu) */
+:root[data-skin="cesur"][data-theme="dark"] {
+  --ink: #ede9de;
+  --ink-soft: #c2bcab;
+  --ink-muted: #8b8577;
+  --surface: #14120c;
+  --surface-raised: #1e1b13;
+  --surface-sunken: #0c0b07;
+  --line: #ede9de;
+  --line-soft: #3a362b;
+
+  --brand-50: #0a1912;
+  --brand-100: #0e2419;
+  --brand-200: #143a29;
+  --brand-300: #1e5f43;
+  --brand-400: #2f9068;
+  --brand-500: #4fd79f;
+  --brand-600: #74e3b6;
+  --brand-700: #9aeecc;
+  --brand-800: #c0f6e0;
+  --brand-900: #e0fbf0;
+
+  --accent-400: #ff8f60;
+  --accent-500: #ff7a45;
+  --accent-600: #e6602c;
+
+  --type-sell: #4fd79f;
+  --type-swap: #ff7a45;
+  --hero-glow-a: rgb(79 215 159 / 0.18);
+  --hero-glow-b: rgb(255 122 69 / 0.16);
+  --grain-opacity: 0.06;
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-skin="cesur"]:not([data-theme="light"]) {
+    --ink: #ede9de;
+    --ink-soft: #c2bcab;
+    --ink-muted: #8b8577;
+    --surface: #14120c;
+    --surface-raised: #1e1b13;
+    --surface-sunken: #0c0b07;
+    --line: #ede9de;
+    --line-soft: #3a362b;
+
+    --brand-50: #0a1912;
+    --brand-100: #0e2419;
+    --brand-200: #143a29;
+    --brand-300: #1e5f43;
+    --brand-400: #2f9068;
+    --brand-500: #4fd79f;
+    --brand-600: #74e3b6;
+    --brand-700: #9aeecc;
+    --brand-800: #c0f6e0;
+    --brand-900: #e0fbf0;
+
+    --accent-400: #ff8f60;
+    --accent-500: #ff7a45;
+    --accent-600: #e6602c;
+
+    --type-sell: #4fd79f;
+    --type-swap: #ff7a45;
+    --hero-glow-a: rgb(79 215 159 / 0.18);
+    --hero-glow-b: rgb(255 122 69 / 0.16);
+    --grain-opacity: 0.06;
+    color-scheme: dark;
+  }
+}
