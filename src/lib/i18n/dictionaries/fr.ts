@@ -238,6 +238,17 @@ const fr = {
     language: "Langue",
     newBadge: "Nouveau",
   },
+  invite: {
+    title: "Invite tes voisins",
+    text: "Voisini ne marche que si ton quartier y est. Partage ton lien : chaque personne qui s'inscrit avec lui apparaît ici.",
+    copy: "Copier le lien",
+    copied: "Lien copié",
+    share: "Partager sur WhatsApp",
+    joined: "{count} personne(s) sont arrivées grâce à toi",
+    none: "Personne pour l'instant — c'est le moment d'envoyer le lien.",
+    message: "Je viens de rejoindre Voisini : on y vend, donne, prête, loue et échange des objets entre voisins. Viens voir ce qu'il y a près de chez toi :",
+    link: "Mon lien",
+  },
   alerts: {
     title: "Mes alertes",
     save: "Créer une alerte",

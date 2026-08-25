@@ -34,6 +34,8 @@ export async function signUpAction(
   const confirm = String(formData.get("confirm") ?? "");
   const displayName = String(formData.get("displayName") ?? "").trim();
   const locale = String(formData.get("locale") ?? "fr");
+  // Davet kodu: yalnızca harf/rakam, en fazla 12 karakter
+  const ref = String(formData.get("ref") ?? "").trim().toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 12);
 
   const errors: Record<string, string> = {};
   if (!EMAIL_RE.test(email)) errors.email = "invalidEmail";
@@ -48,7 +50,7 @@ export async function signUpAction(
     email,
     password,
     redirectTo: `${siteUrl()}/auth/callback?next=/${locale}/onboarding`,
-    data: { display_name: displayName, locale },
+    data: { display_name: displayName, locale, ...(ref ? { ref } : {}) },
   });
 
   if (error) return fail(error.message);

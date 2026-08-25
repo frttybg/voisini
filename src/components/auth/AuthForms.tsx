@@ -162,6 +162,7 @@ export function LoginForm() {
 export function RegisterForm() {
   const { t, locale } = useI18n();
   const router = useRouter();
+  const search = useSearchParams();
   const [state, formAction, pending] = useActionState(signUpAction, idleState);
   const [resendState, resendAction, resendPending] = useActionState(
     resendConfirmationAction,
@@ -219,6 +220,7 @@ export function RegisterForm() {
 
       <form action={formAction} className="flex flex-col gap-4">
         <input type="hidden" name="locale" value={locale} />
+        <input type="hidden" name="ref" value={search.get("ref") ?? ""} />
 
         <div>
           <Label htmlFor="displayName" required>{t.auth.displayName}</Label>

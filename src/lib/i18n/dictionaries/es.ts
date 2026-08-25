@@ -239,6 +239,17 @@ const es: Dictionary = {
     language: "Idioma",
     newBadge: "Nuevo",
   },
+  invite: {
+    title: "Invita a tus vecinos",
+    text: "Voisini solo funciona si tu barrio está dentro. Comparte tu enlace: quien se registre con él aparecerá aquí.",
+    copy: "Copiar el enlace",
+    copied: "Enlace copiado",
+    share: "Compartir por WhatsApp",
+    joined: "{count} personas se han unido gracias a ti",
+    none: "Todavía nadie: es buen momento para enviar el enlace.",
+    message: "Acabo de unirme a Voisini: los vecinos venden, regalan, prestan, alquilan e intercambian cosas. Mira lo que hay cerca de ti:",
+    link: "Mi enlace",
+  },
   alerts: {
     title: "Mis alertas",
     save: "Crear una alerta",

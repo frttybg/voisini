@@ -23,6 +23,7 @@ export function Footer() {
     {
       title: t.footer.company,
       links: [
+        { label: t.invite.title, href: href("/invite") },
         { label: t.footer.safety, href: href("/#trust") },
         { label: t.footer.help, href: href("/#how") },
         { label: t.footer.contact, href: `mailto:${PUBLISHER.email}` },

@@ -238,6 +238,17 @@ const en: Dictionary = {
     language: "Language",
     newBadge: "New",
   },
+  invite: {
+    title: "Invite your neighbours",
+    text: "Voisini only works if your neighbourhood is on it. Share your link: everyone who signs up with it shows up here.",
+    copy: "Copy the link",
+    copied: "Link copied",
+    share: "Share on WhatsApp",
+    joined: "{count} people joined thanks to you",
+    none: "Nobody yet — now is a good time to send the link.",
+    message: "I just joined Voisini: neighbours sell, give away, lend, rent and swap things there. Have a look at what is near you:",
+    link: "My link",
+  },
   alerts: {
     title: "My alerts",
     save: "Create an alert",

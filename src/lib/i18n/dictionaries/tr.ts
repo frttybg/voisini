@@ -240,6 +240,17 @@ const tr: Dictionary = {
     language: "Dil",
     newBadge: "Yeni",
   },
+  invite: {
+    title: "Komşularını davet et",
+    text: "Voisini ancak mahallen buradaysa işe yarar. Bağlantını paylaş: onunla kaydolan herkes burada görünür.",
+    copy: "Bağlantıyı kopyala",
+    copied: "Bağlantı kopyalandı",
+    share: "WhatsApp'ta paylaş",
+    joined: "Senin sayende {count} kişi katıldı",
+    none: "Henüz kimse yok — bağlantıyı göndermenin tam zamanı.",
+    message: "Voisini'ye katıldım: komşular arasında eşya satılıyor, veriliyor, ödünç veriliyor, kiralanıyor ve takas ediliyor. Yakınında ne var bir bak:",
+    link: "Bağlantım",
+  },
   alerts: {
     title: "Alarmlarım",
     save: "Alarm kur",
