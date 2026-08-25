@@ -1,4 +1,4 @@
-export type ListingType = "sell" | "give" | "lend" | "rent" | "swap";
+export type ListingType = "sell" | "give" | "lend" | "rent" | "swap" | "want";
 export type ListingStatus =
   | "draft" | "pending" | "active" | "reserved" | "completed" | "archived" | "removed";
 export type ItemCondition = "new" | "like_new" | "good" | "fair" | "for_parts";

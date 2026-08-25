@@ -40,6 +40,7 @@ const fr = {
     lend: { label: "Prêter", short: "Prêt", tagline: "Prête pour quelques jours, récupère après." },
     rent: { label: "Louer", short: "Location", tagline: "Loue à l'heure, au jour ou au mois." },
     swap: { label: "Échanger", short: "Échange", tagline: "Troque ce que tu as contre ce qu'il te faut." },
+    want: { label: "Cherche", short: "Recherché", tagline: "Dis ce qu'il te faut, un voisin l'a peut-être." },
   },
   sections: {
     discoverTitle: "Découvre ton quartier",
@@ -163,6 +164,7 @@ const fr = {
     skip: "Passer",
   },
   listing: {
+    wantHint: "Pas besoin de prix ni de photo : décris simplement ce que tu cherches. Les voisins qui l'ont te contacteront.",
     createTitle: "Déposer une annonce",
     photos: "Photos",
     photosHint: "Jusqu'à 8 photos. La première sera la photo principale.",

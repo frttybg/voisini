@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { useI18n } from "@/lib/i18n/provider";
-import { cn, formatPrice, formatRelativeTime, listingTypeOrder } from "@/lib/utils";
+import { cn, formatPrice, formatRelativeTime, listingTypeAll } from "@/lib/utils";
 import { Icon, type IconName } from "@/components/ui/Icon";
 import { Button } from "@/components/ui/Button";
 import { Badge, EmptyState } from "@/components/ui/Primitives";
@@ -134,7 +134,7 @@ export function AdminDashboard({
               {t.listing.typeTitle}
             </h2>
             <div className="flex flex-wrap gap-2">
-              {listingTypeOrder.map((type) => (
+              {listingTypeAll.map((type) => (
                 <span
                   key={type}
                   className="flex items-center gap-2 rounded-full border border-[var(--line)] px-4 py-2 text-sm"

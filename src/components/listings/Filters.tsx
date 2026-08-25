@@ -2,7 +2,7 @@
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useState } from "react";
-import { cn, listingTypeOrder } from "@/lib/utils";
+import { cn, listingTypeAll } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n/provider";
 import { Icon } from "@/components/ui/Icon";
 import { Button } from "@/components/ui/Button";
@@ -50,7 +50,7 @@ export function Filters({
         <Chip active={!activeType} onClick={() => setParam({ type: null })}>
           {t.filters.all}
         </Chip>
-        {listingTypeOrder.map((type) => (
+        {listingTypeAll.map((type) => (
           <Chip
             key={type}
             active={activeType === type}

@@ -42,6 +42,7 @@ const de: Dictionary = {
     lend: { label: "Verleihen", short: "Leihgabe", tagline: "Ein paar Tage verleihen, danach zurückbekommen." },
     rent: { label: "Vermieten", short: "Zu vermieten", tagline: "Stundenweise, tageweise oder monatlich vermieten." },
     swap: { label: "Tauschen", short: "Tausch", tagline: "Tausche, was du hast, gegen das, was du brauchst." },
+    want: { label: "Gesucht", short: "Gesucht", tagline: "Sag, was du brauchst — vielleicht hat es jemand." },
   },
   sections: {
     discoverTitle: "Entdecke dein Viertel",
@@ -164,6 +165,7 @@ const de: Dictionary = {
     skip: "Überspringen",
   },
   listing: {
+    wantHint: "Kein Preis, kein Foto nötig — beschreibe einfach, was du suchst. Wer es hat, meldet sich.",
     createTitle: "Anzeige aufgeben",
     photos: "Fotos",
     photosHint: "Bis zu 8 Fotos. Das erste ist das Hauptfoto.",

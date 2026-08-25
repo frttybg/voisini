@@ -39,6 +39,7 @@
   --color-lend: var(--type-lend);
   --color-rent: var(--type-rent);
   --color-swap: var(--type-swap);
+  --color-want: var(--type-want);
 
   --color-success: var(--success);
   --color-warning: var(--warning);
@@ -89,6 +90,7 @@
   --type-lend: #0ea5e9;
   --type-rent: #7c5cff;
   --type-swap: #ff5a36;
+  --type-want: #a21caf;
 
   --success: #16a34a;
   --warning: #f0a020;
@@ -134,6 +136,7 @@
     --brand-900: #d6f8ec;
 
     --type-sell: #2ac295;
+    --type-want: #e879f9;
     --hero-glow-a: rgb(42 194 149 / 0.22);
     --hero-glow-b: rgb(255 90 54 / 0.16);
     --grain-opacity: 0.05;
@@ -164,6 +167,7 @@
   --brand-900: #d6f8ec;
 
   --type-sell: #2ac295;
+  --type-want: #e879f9;
   --hero-glow-a: rgb(42 194 149 / 0.22);
   --hero-glow-b: rgb(255 90 54 / 0.16);
   --grain-opacity: 0.05;

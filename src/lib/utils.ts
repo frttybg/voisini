@@ -74,7 +74,14 @@ export function randomId(length = 8): string {
   return Array.from(bytes, (b) => alphabet[b % alphabet.length]).join("");
 }
 
+/** Ana sayfadaki anlatı sırası — markanın beş fiili. */
 export const listingTypeOrder: ListingType[] = ["sell", "give", "lend", "rent", "swap"];
+
+/**
+ * İlan verirken ve süzgeçlerde kullanılan tam liste. "Aranıyor",
+ * elinde bir şey olmayanın da ilan verebilmesi için beş fiile eklenir.
+ */
+export const listingTypeAll: ListingType[] = [...listingTypeOrder, "want"];
 
 export const listingTypeColor: Record<ListingType, string> = {
   sell: "var(--type-sell)",
@@ -82,6 +89,7 @@ export const listingTypeColor: Record<ListingType, string> = {
   lend: "var(--type-lend)",
   rent: "var(--type-rent)",
   swap: "var(--type-swap)",
+  want: "var(--type-want)",
 };
 
 export const rentPeriods: RentPeriod[] = ["hour", "day", "week", "month"];

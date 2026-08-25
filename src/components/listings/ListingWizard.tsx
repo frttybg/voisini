@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
-import { cn, listingTypeOrder } from "@/lib/utils";
+import { cn, listingTypeAll } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n/provider";
 import { Icon, categoryIcon, type IconName } from "@/components/ui/Icon";
 import { Button } from "@/components/ui/Button";
@@ -201,7 +201,7 @@ export function ListingWizard({
         {/* 3 — İlan türü */}
         {step === 3 ? (
           <div className="grid gap-3 sm:grid-cols-2">
-            {listingTypeOrder.map((option) => {
+            {listingTypeAll.map((option) => {
               const active = type === option;
               const color = `var(--type-${option})`;
               return (
@@ -265,6 +265,18 @@ export function ListingWizard({
                   onChange={(e) => setNegotiable(e.target.checked)}
                 />
               </>
+            ) : null}
+
+            {type === "want" ? (
+              <div className="rounded-[var(--radius-lg)] border border-[var(--line)] bg-[var(--surface-sunken)] p-5">
+                <p className="flex items-center gap-2 text-[0.9375rem] font-bold text-[var(--type-want)]">
+                  <Icon name="search" size={18} />
+                  {t.types.want.short}
+                </p>
+                <p className="mt-1.5 text-[0.875rem] leading-relaxed text-[var(--ink-muted)]">
+                  {t.listing.wantHint}
+                </p>
+              </div>
             ) : null}
 
             {type === "give" ? (

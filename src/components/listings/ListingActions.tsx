@@ -49,7 +49,9 @@ export function ListingActions({
           ? t.listing.makeOffer
           : type === "lend"
             ? t.listing.requestLoan
-            : t.deal.request;
+            : type === "want"
+              ? t.listing.contactSeller
+              : t.deal.request;
 
   function requireAuth(next: () => void) {
     if (!authenticated) {
@@ -104,18 +106,22 @@ export function ListingActions({
 
   return (
     <div className="flex flex-col gap-2">
-      <Button
-        size="lg"
-        full
-        icon={type === "swap" ? "swap" : "check"}
-        disabled={!available}
-        onClick={() =>
-          requireAuth(() => (type === "swap" ? setSwapOpen(true) : setDealOpen(true)))
-        }
-        magnetic
-      >
-        {primaryLabel}
-      </Button>
+      {/* "Aranıyor" ilanında satın alınacak bir şey yok: burada tek yol
+          mesaj atmak. O yüzden işlem düğmesi hiç gösterilmiyor. */}
+      {type === "want" ? null : (
+        <Button
+          size="lg"
+          full
+          icon={type === "swap" ? "swap" : "check"}
+          disabled={!available}
+          onClick={() =>
+            requireAuth(() => (type === "swap" ? setSwapOpen(true) : setDealOpen(true)))
+          }
+          magnetic
+        >
+          {primaryLabel}
+        </Button>
+      )}
 
       <Button variant="outline" full icon="message" loading={pending} onClick={contact}>
         {t.listing.contactSeller}

@@ -42,6 +42,7 @@ const tr: Dictionary = {
     lend: { label: "Ödünç ver", short: "Ödünç", tagline: "Birkaç günlüğüne ver, sonra geri al." },
     rent: { label: "Kirala", short: "Kiralık", tagline: "Saatlik, günlük veya aylık kirala." },
     swap: { label: "Takas et", short: "Takas", tagline: "Elindekini ihtiyacın olanla değiştir." },
+    want: { label: "Ara", short: "Aranıyor", tagline: "Neye ihtiyacın olduğunu yaz, bir komşuda olabilir." },
   },
   sections: {
     discoverTitle: "Mahalleni keşfet",
@@ -165,6 +166,7 @@ const tr: Dictionary = {
     skip: "Atla",
   },
   listing: {
+    wantHint: "Fiyat ya da fotoğraf gerekmez: sadece ne aradığını yaz. Elinde olan komşular sana ulaşır.",
     createTitle: "İlan ekle",
     photos: "Fotoğraflar",
     photosHint: "En fazla 8 fotoğraf. İlki ana fotoğraf olacak.",

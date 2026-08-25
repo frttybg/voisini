@@ -41,6 +41,7 @@ const en: Dictionary = {
     lend: { label: "Lend", short: "Loan", tagline: "Lend it for a few days, get it back after." },
     rent: { label: "Rent", short: "For rent", tagline: "Rent by the hour, day or month." },
     swap: { label: "Swap", short: "Swap", tagline: "Trade what you have for what you need." },
+    want: { label: "Looking for", short: "Wanted", tagline: "Say what you need — a neighbour may have it." },
   },
   sections: {
     discoverTitle: "Discover your neighbourhood",
@@ -163,6 +164,7 @@ const en: Dictionary = {
     skip: "Skip",
   },
   listing: {
+    wantHint: "No price or photo needed — just describe what you are after. Neighbours who have it will get in touch.",
     createTitle: "Post a listing",
     photos: "Photos",
     photosHint: "Up to 8 photos. The first one is the main photo.",

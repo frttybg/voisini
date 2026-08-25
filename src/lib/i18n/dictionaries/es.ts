@@ -42,6 +42,7 @@ const es: Dictionary = {
     lend: { label: "Prestar", short: "Préstamo", tagline: "Préstalo unos días y recupéralo después." },
     rent: { label: "Alquilar", short: "En alquiler", tagline: "Alquila por horas, días o meses." },
     swap: { label: "Intercambiar", short: "Intercambio", tagline: "Cambia lo que tienes por lo que necesitas." },
+    want: { label: "Busco", short: "Se busca", tagline: "Di lo que necesitas: puede que un vecino lo tenga." },
   },
   sections: {
     discoverTitle: "Descubre tu barrio",
@@ -164,6 +165,7 @@ const es: Dictionary = {
     skip: "Omitir",
   },
   listing: {
+    wantHint: "No hace falta precio ni foto: describe lo que buscas. Los vecinos que lo tengan te escribirán.",
     createTitle: "Publicar anuncio",
     photos: "Fotos",
     photosHint: "Hasta 8 fotos. La primera será la principal.",

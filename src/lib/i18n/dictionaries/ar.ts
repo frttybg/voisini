@@ -41,6 +41,7 @@ const ar: Dictionary = {
     lend: { label: "إعارة", short: "إعارة", tagline: "أعِره بضعة أيام ثم استرده." },
     rent: { label: "تأجير", short: "للإيجار", tagline: "أجّر بالساعة أو باليوم أو بالشهر." },
     swap: { label: "مبادلة", short: "مبادلة", tagline: "بادِل ما لديك بما تحتاجه." },
+    want: { label: "أبحث عن", short: "مطلوب", tagline: "اكتب ما تحتاجه، قد يكون لدى أحد الجيران." },
   },
   sections: {
     discoverTitle: "اكتشف حيّك",
@@ -160,6 +161,7 @@ const ar: Dictionary = {
     skip: "تخطٍّ",
   },
   listing: {
+    wantHint: "لا حاجة لسعر أو صورة: اكتب ما تبحث عنه فقط. من يملكه من الجيران سيتواصل معك.",
     createTitle: "أضف إعلانًا",
     photos: "الصور",
     photosHint: "حتى ٨ صور. الأولى ستكون الصورة الرئيسية.",

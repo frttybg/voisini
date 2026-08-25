@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { cn, listingTypeOrder } from "@/lib/utils";
+import { cn, listingTypeAll } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n/provider";
 import { Button } from "@/components/ui/Button";
 import { Reveal } from "@/components/ui/Reveal";
@@ -57,7 +57,7 @@ export function NearbySection({
         <FilterChip active={filter === "all"} onClick={() => setFilter("all")}>
           {t.filters.all}
         </FilterChip>
-        {listingTypeOrder.map((type) => (
+        {listingTypeAll.map((type) => (
           <FilterChip
             key={type}
             active={filter === type}
