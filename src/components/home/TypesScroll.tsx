@@ -12,6 +12,7 @@ const typeIcon: Record<ListingType, IconName> = {
   lend: "clock",
   rent: "key",
   swap: "swap",
+  want: "search",
 };
 
 /**
