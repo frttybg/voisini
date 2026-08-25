@@ -5,6 +5,7 @@ import { getUserListings, imageUrl } from "@/lib/data/listings";
 import { fetchUserRatings } from "@/lib/actions/transactions";
 import { signOutAction } from "@/lib/actions/auth";
 import { ProfilePanel } from "@/components/profile/ProfilePanel";
+import { DangerZone } from "@/components/profile/DangerZone";
 import { paymentsEnabled } from "@/lib/payments";
 
 export const dynamic = "force-dynamic";
@@ -30,7 +31,8 @@ export default async function ProfilePage({
   const signOut = signOutAction.bind(null, locale);
 
   return (
-    <ProfilePanel
+    <>
+      <ProfilePanel
       profile={{
         id: profile.id,
         displayName: profile.display_name,
@@ -54,8 +56,13 @@ export default async function ProfilePage({
       ratings={ratings}
       images={images}
       paymentsEnabled={paymentsEnabled}
-      signOut={signOut}
-      logoutLabel={t.nav.logout}
-    />
+        signOut={signOut}
+        logoutLabel={t.nav.logout}
+      />
+
+      <div className="mx-auto w-full max-w-3xl px-5 pb-24 sm:px-8">
+        <DangerZone locale={locale} deletionPending={Boolean(profile.deleted_at)} />
+      </div>
+    </>
   );
 }

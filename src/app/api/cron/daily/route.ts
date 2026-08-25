@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { serviceClient } from "@/lib/supabase/server";
 import { mailReturnReminder, mailSearchAlert, mailWeeklyDigest } from "@/lib/email/notify";
 import { emailEnabled } from "@/lib/email/send";
+import { adminDeleteUser } from "@/lib/supabase/auth";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -51,15 +52,11 @@ export async function GET(request: Request) {
   if (!authorized(request)) {
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
-  if (!emailEnabled) {
-    return NextResponse.json({ skipped: "email disabled" });
-  }
-
   const client = serviceClient();
-  const result = { reminders: 0, alerts: 0, digests: 0 };
+  const result = { reminders: 0, alerts: 0, digests: 0, purged: 0 };
 
-  // 1. İade hatırlatmaları — her gün
-  try {
+  // 1. İade hatırlatmaları — her gün (e-posta kapalıysa atlanır)
+  if (emailEnabled) try {
     const { data, error } = await client.rpc<ReminderRow[]>("pending_return_reminders");
     if (!error && Array.isArray(data)) {
       for (const row of data) {
@@ -72,7 +69,7 @@ export async function GET(request: Request) {
   }
 
   // 2. Arama alarmları — her gün
-  try {
+  if (emailEnabled) try {
     const { data, error } = await client.rpc<AlertRow[]>("pending_search_alerts", {
       p_limit: 300,
     });
@@ -88,7 +85,7 @@ export async function GET(request: Request) {
 
   // 3. Haftalık özet — yalnızca pazartesi
   const isMonday = new Date().getUTCDay() === 1;
-  if (isMonday) {
+  if (isMonday && emailEnabled) {
     try {
       const { data, error } = await client.rpc<DigestRow[]>("weekly_digest", { p_limit: 500 });
       if (!error && Array.isArray(data)) {
@@ -100,6 +97,18 @@ export async function GET(request: Request) {
     } catch (error) {
       console.error("[cron] haftalık özet", error);
     }
+  }
+
+  // 4. Süresi dolan hesap silme talepleri — her gün
+  try {
+    const { data, error } = await client.rpc<string[]>("expired_deletions", { p_limit: 50 });
+    if (!error && Array.isArray(data)) {
+      for (const userId of data) {
+        if (await adminDeleteUser(userId)) result.purged += 1;
+      }
+    }
+  } catch (error) {
+    console.error("[cron] hesap silme", error);
   }
 
   return NextResponse.json({ ok: true, ...result });

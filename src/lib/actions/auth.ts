@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { publicEnv, isSupabaseConfigured } from "@/lib/env";
 import {
@@ -160,4 +161,36 @@ export async function resendConfirmationAction(
   if (!(await rateLimit("resend", 3, 3600, email))) return fail("rateLimited");
   await resendConfirmation(email, `${siteUrl()}/auth/callback?next=/${locale}/onboarding`);
   return succeed("checkEmail");
+}
+
+/* ------------------------------------------------------- Hesap silme */
+
+/**
+ * Silme talebi. Profil hemen anonimleşir, ilanlar yayından kalkar,
+ * oturum kapanır. Kayıt 30 gün sonra günlük görevle kalıcı olarak
+ * silinir; o güne kadar giriş yapıp vazgeçmek mümkün.
+ */
+export async function requestAccountDeletionAction(locale: string) {
+  const { client, userId } = await userClient();
+  if (!userId) redirect(`/${locale}/login`);
+
+  const { error } = await client.rpc("request_account_deletion");
+  if (error) return;
+
+  const session = await getSession();
+  if (session?.accessToken) await signOutRemote(session.accessToken);
+  await clearSessionCookies();
+  redirect(`/${locale}?deleted=1`);
+}
+
+/** 30 günlük süre dolmadan vazgeçme. */
+export async function cancelAccountDeletionAction(): Promise<ActionState> {
+  const { client, userId } = await userClient();
+  if (!userId) return fail("forbidden");
+
+  const { error } = await client.rpc("cancel_account_deletion");
+  if (error) return fail(error.message);
+
+  revalidatePath("/", "layout");
+  return succeed("saved");
 }

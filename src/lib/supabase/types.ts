@@ -38,6 +38,7 @@ export type Profile = {
   rating_avg: number;
   rating_count: number;
   listings_count: number;
+  deleted_at: string | null;
   stripe_account_id: string | null;
   payouts_enabled: boolean;
   created_at: string;

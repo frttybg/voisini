@@ -182,3 +182,28 @@ export function decodeJwtSub(jwt: string): string | null {
     return null;
   }
 }
+
+/**
+ * Bir kullanıcıyı kalıcı olarak siler (GoTrue yönetici uçları).
+ *
+ * Yalnızca sunucudan, servis anahtarıyla çağrılır. auth.users'tan silinen
+ * satır profiles'a, oradan da ilanlara, mesajlara ve işlemlere zincirleme
+ * yansır — veritabanındaki "on delete cascade" kuralları hallediyor.
+ */
+export async function adminDeleteUser(userId: string): Promise<boolean> {
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const url = publicEnv.supabaseUrl;
+  if (!key || !url) return false;
+
+  try {
+    const res = await fetch(`${url}/auth/v1/admin/users/${userId}`, {
+      method: "DELETE",
+      headers: { apikey: key, Authorization: `Bearer ${key}` },
+      cache: "no-store",
+    });
+    return res.ok;
+  } catch (error) {
+    console.error("[auth] adminDeleteUser", error);
+    return false;
+  }
+}
